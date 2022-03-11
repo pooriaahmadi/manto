@@ -1,0 +1,41 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    >.left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        >h1 {
+            margin-right: 25px;
+        }
+        >.items {
+            display: flex;
+            align-items: center;
+            >.item {
+                text-decoration: none;
+                color: rgba($color: #000000, $alpha: 0.7);
+                font-size: 20px;
+                font-weight: bold !important;
+                padding: 10px 20px;
+                transition: 0.5s;
+                border-radius: 10px;
+                &:hover {
+                    color: #000000;
+                    transition: 0.5s;
+                    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                }
+                &.active {
+                    color: #000000;
+                }
+            }
+        }
+    }
+    >.right {
+        img {
+            width: 70px;
+        }
+    }
+}
