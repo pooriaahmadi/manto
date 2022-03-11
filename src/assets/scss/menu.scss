@@ -1,0 +1,41 @@
+.menu {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 100000;
+    top: 0;
+    right: -100%;
+    background-color: white;
+    padding: 20px;
+    transition: 0.5s;
+    &.active {
+        right: 0;
+        transition: 0.5s;
+    }
+    >.top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        >h1 {
+            font-size: 40px;
+        }
+        >img {
+            width: 40px;
+        }
+    }
+    >.bottom {
+        .item {
+            border-radius: 10px;
+            box-shadow: 0 7px 29px 0 hsl(240deg 5% 41% / 20%);
+            color: #000;
+            display: flex;
+            font-size: 20px;
+            font-weight: 700!important;
+            margin-bottom: 15px;
+            padding: 10px;
+            text-decoration: none;
+            width: 100%;
+        }
+    }
+}
