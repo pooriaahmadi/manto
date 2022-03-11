@@ -36,6 +36,9 @@ header {
     >.right {
         img {
             width: 70px;
+            &:last-of-type {
+                display: none;
+            }
         }
     }
 }

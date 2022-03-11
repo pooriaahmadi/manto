@@ -1,0 +1,20 @@
+@media screen and (max-width: 1000px) {
+    header {
+        >.left {
+            >.items {
+                display: none;
+            }
+        }
+        >.right {
+            img {
+                &:first-of-type {
+                    display: none;
+                }
+                &:last-of-type {
+                    width: 50px;
+                    display: flex !important;
+                }
+            }
+        }
+    }
+}
