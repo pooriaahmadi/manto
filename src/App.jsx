@@ -11,11 +11,6 @@ const App = () => {
 		const request = indexedDB.open("manto", 1);
 		request.onsuccess = (e) => {
 			const db = e.target.result;
-			Database.insertUser({
-				db: db,
-				username: "pooria",
-				name: "heeey",
-			});
 			setDatabase(db);
 		};
 		request.onupgradeneeded = (e) => {
