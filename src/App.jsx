@@ -3,7 +3,29 @@ import "./App.css";
 import "./assets/scss/responsive.scss";
 import Header from "./Components/Header/Header";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Database from "./Database";
 const App = () => {
+	const [database, setDatabase] = useState();
+	useEffect(() => {
+		const request = indexedDB.open("manto", 1);
+		request.onsuccess = (e) => {
+			const db = e.target.result;
+			Database.insertUser({
+				db: db,
+				username: "pooria",
+				name: "heeey",
+			});
+			setDatabase(db);
+		};
+		request.onupgradeneeded = (e) => {
+			const db = e.target.result;
+			Database.first_time(db);
+		};
+		request.onerror = (e) => {
+			alert(`Database error: ${e.target.errorCode}`);
+		};
+	}, []);
 	return (
 		<div className="app">
 			<BrowserRouter>
