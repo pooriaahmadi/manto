@@ -5,21 +5,20 @@ import Header from "./Components/Header/Header";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Database from "./Database";
+import idb from "idb";
 const App = () => {
 	const [database, setDatabase] = useState();
 	useEffect(() => {
-		const request = indexedDB.open("manto", 1);
-		request.onsuccess = (e) => {
-			const db = e.target.result;
+		const stuff = async () => {
+			const db = await idb.openDB("manto", 1, {
+				upgrade(db, oldVersion, newVersion, transaction) {
+					Database.first_time(db);
+				},
+			});
+
 			setDatabase(db);
 		};
-		request.onupgradeneeded = (e) => {
-			const db = e.target.result;
-			Database.first_time(db);
-		};
-		request.onerror = (e) => {
-			alert(`Database error: ${e.target.errorCode}`);
-		};
+		stuff();
 	}, []);
 	return (
 		<div className="app">
