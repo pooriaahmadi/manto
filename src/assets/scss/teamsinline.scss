@@ -1,0 +1,23 @@
+.teams-inline {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 15px;
+    padding: 20px;
+    >.top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        >.controls {
+            >.new {
+                text-decoration: none;
+                color: white;
+                background-color: limegreen;
+                padding: 10px 15px;
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bolder;
+            }
+        }
+    }
+}
