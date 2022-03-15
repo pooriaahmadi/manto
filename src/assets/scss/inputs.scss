@@ -1,0 +1,51 @@
+.input {
+    width: 100%;
+    position: relative;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    &.error>h2 {
+        background-color: crimson;
+        color: white;
+    }
+    &:hover>h2 {
+        background-color: #007AFF;
+        color: white;
+        transition: 0.5s;
+    }
+    &:hover>input {
+        transition: 0.5s;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+    input,
+    select {
+        background-color: transparent;
+        transition: 0.5s;
+        width: 100%;
+        outline: none;
+        padding: 15px 10px;
+        font-size: 17px;
+        border-radius: inherit;
+        border: rgba(0, 0, 0, 0.24) 1px solid;
+        &[type="submit"] {
+            background-color: #007AFF;
+            color: white;
+            font-size: 20px;
+            font-weight: bolder !important;
+            padding: 10px 0;
+        }
+    }
+    h2 {
+        transition: 0.5s;
+        position: absolute;
+        top: calc(-0.5em - 5px);
+        left: 0.5em;
+        border-radius: 5px;
+        padding: 0 10px;
+        font-size: 18px;
+        border: rgba(0, 0, 0, 0.24) 1px solid;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
