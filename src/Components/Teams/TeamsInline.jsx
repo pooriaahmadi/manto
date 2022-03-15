@@ -27,9 +27,27 @@ const TeamsInline = ({ database }) => {
 				</div>
 			</div>
 			<div className="bottom">
-				{teams.map((item, index) => (
-					<TeamInline key={index} {...item}></TeamInline>
-				))}
+				{teams.map((item, index) => {
+					const handleDelete = async () => {
+						const isAccepted = window.confirm(
+							`Are you sure you want to delete team, ${item.number} ${item.name}?`
+						);
+						if (!isAccepted) return;
+						console.log(item);
+						await Database.Teams.delete({
+							db: database,
+							id: item.id,
+						});
+						setTeams(teams.filter((newItem) => newItem !== item));
+					};
+					return (
+						<TeamInline
+							key={index}
+							{...item}
+							handleDelete={handleDelete}
+						></TeamInline>
+					);
+				})}
 			</div>
 		</div>
 	);

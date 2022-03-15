@@ -50,7 +50,10 @@ class Database {
         static all = async({ db }) => {
             const txn = db.transaction("users", "readonly");
             const objectStore = txn.objectStore("users");
-            return await objectStore.getAll();
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return {...item, id: keys[index] };
+            });
         };
     };
     static Teams = class Teams {
@@ -78,7 +81,15 @@ class Database {
         static all = async({ db }) => {
             const txn = db.transaction("teams", "readonly");
             const objectStore = txn.objectStore("teams");
-            return await objectStore.getAll();
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return {...item, id: keys[index] };
+            });
+        };
+        static delete = async({ db, id }) => {
+            const txn = db.transaction("teams", "readwrite");
+            const objectStore = txn.objectStore("teams");
+            await objectStore.delete(id);
         };
     };
     static insertProperty = async({ db, title, type, category_id }) => {

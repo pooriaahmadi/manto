@@ -6,6 +6,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 20px;
         >.controls {
             >.new {
                 text-decoration: none;
@@ -20,4 +21,5 @@
             }
         }
     }
+    >.bottom {}
 }
