@@ -20,6 +20,7 @@ const Header = () => {
 					<h1>Manto</h1>
 					<div className="items">
 						<HeaderItem url="/" title="Home"></HeaderItem>
+						<HeaderItem url="/admin" title="Admin"></HeaderItem>
 					</div>
 				</div>
 				<div className="right">
