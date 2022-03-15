@@ -1,0 +1,26 @@
+.new-team {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    form {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 20px;
+        border-radius: 15px;
+        >h1 {
+            margin-bottom: 20px;
+        }
+        >input[type="submit"] {
+            width: 100%;
+            outline: none;
+            border: none;
+            background-color: #007AFF;
+            color: white;
+            font-weight: bolder;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+    }
+}
