@@ -53,6 +53,34 @@ class Database {
             return await objectStore.getAll();
         };
     };
+    static Teams = class Teams {
+        static getById = async({ db, id }) => {
+            const txn = db.transaction("teams", "readonly");
+            const teams = txn.objectStore("teams");
+            try {
+                const query = await teams.get(id);
+                return query.result;
+            } catch (err) {
+                return undefined;
+            }
+        };
+        static getByNumber = async({ db, number }) => {
+            const txn = db.transaction("teams", "readonly");
+            const teams = txn.objectStore("teams");
+            const index = teams.index("number");
+            try {
+                const query = await index.get(number);
+                return query.result;
+            } catch (err) {
+                return undefined;
+            }
+        };
+        static all = async({ db }) => {
+            const txn = db.transaction("teams", "readonly");
+            const objectStore = txn.objectStore("teams");
+            return await objectStore.getAll();
+        };
+    };
     static insertProperty = async({ db, title, type, category_id }) => {
         const txn = db.transaction("properties", "readwrite");
         const properties = txn.objectStore("properties");
