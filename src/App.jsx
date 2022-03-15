@@ -2,10 +2,12 @@ import React from "react";
 import "./App.css";
 import "./assets/scss/responsive.scss";
 import Header from "./Components/Header/Header";
+import Admin from "./Pages/Admin";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Database from "./Database";
-import idb from "idb";
+import * as idb from "idb";
+import NewTeam from "./Components/Teams/NewTeam";
 const App = () => {
 	const [database, setDatabase] = useState();
 	useEffect(() => {
@@ -26,8 +28,14 @@ const App = () => {
 				<Header></Header>
 				<Routes>
 					<Route path="/" element={<h1>HOME PAGE</h1>} />
-					<Route path="/1" element={<h1>ABOUT US</h1>} />
-					<Route path="/2" element={<h1>CONTACT US</h1>} />
+					<Route
+						path="/admin"
+						element={<Admin database={database}></Admin>}
+					/>
+					<Route
+						path="/teams/new"
+						element={<NewTeam database={database}></NewTeam>}
+					/>
 				</Routes>
 			</BrowserRouter>
 		</div>
