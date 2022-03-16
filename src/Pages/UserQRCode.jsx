@@ -19,7 +19,7 @@ const UserQRCode = ({ database }) => {
 				setUser(user);
 				setImage(
 					await qrcode.toDataURL(
-						JSON.stringify({ ...user, id: id }),
+						JSON.stringify({ id: id, ...user }),
 						{ width: 1000, height: 1000 }
 					)
 				);

@@ -3,6 +3,7 @@
     position: relative;
     border-radius: 8px;
     margin-bottom: 25px;
+    cursor: pointer;
     &.error>h2 {
         background-color: crimson;
         color: white;

@@ -1,14 +1,17 @@
 .teams-inline {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 15px;
-    padding: 20px;
     >.top {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
         >.controls {
-            >.new {
+            display: flex;
+            >.new,
+            .qrcode {
                 text-decoration: none;
                 color: white;
                 background-color: limegreen;
@@ -18,8 +21,21 @@
                 justify-content: center;
                 align-items: center;
                 font-weight: bolder;
+                border: none;
+                outline: none;
+                font-size: 1em;
+                font-weight: normal;
+                cursor: pointer;
+            }
+            >.qrcode {
+                background-color: #007AFF;
+                margin-right: 10px;
             }
         }
     }
-    >.bottom {}
+    >.bottom {
+        padding: 20px;
+        max-height: 500px;
+        overflow-y: auto;
+    }
 }

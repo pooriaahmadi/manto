@@ -21,6 +21,12 @@ const UsersInline = ({ database }) => {
 			<div className="top">
 				<h1>Users</h1>
 				<div className="controls">
+					<Link className="qrcode" to="/users/qrcode">
+						QRCode
+					</Link>
+					<Link className="qrcode" to="/users/qrcode/load">
+						Load
+					</Link>
 					<Link className="new" to="/users/new">
 						New
 					</Link>

@@ -26,6 +26,11 @@ class Database {
         });
     };
     static Users = class Users {
+        static clear = async({ db }) => {
+            const txn = db.transaction("users", "readwrite");
+            const users = txn.objectStore("users");
+            await users.clear();
+        };
         static getById = async({ db, id }) => {
             const txn = db.transaction("users", "readonly");
             const users = txn.objectStore("users");
@@ -52,7 +57,7 @@ class Database {
             const objectStore = txn.objectStore("users");
             const keys = await objectStore.getAllKeys();
             return (await objectStore.getAll()).map((item, index) => {
-                return {...item, id: keys[index] };
+                return { id: keys[index], ...item };
             });
         };
         static delete = async({ db, id }) => {
@@ -62,6 +67,11 @@ class Database {
         };
     };
     static Teams = class Teams {
+        static clear = async({ db }) => {
+            const txn = db.transaction("teams", "readwrite");
+            const teams = txn.objectStore("teams");
+            await teams.clear();
+        };
         static getById = async({ db, id }) => {
             const txn = db.transaction("teams", "readonly");
             const teams = txn.objectStore("teams");
@@ -88,7 +98,7 @@ class Database {
             const objectStore = txn.objectStore("teams");
             const keys = await objectStore.getAllKeys();
             return (await objectStore.getAll()).map((item, index) => {
-                return {...item, id: keys[index] };
+                return { id: keys[index], ...item };
             });
         };
         static delete = async({ db, id }) => {
@@ -100,75 +110,51 @@ class Database {
     static insertProperty = async({ db, title, type, category_id }) => {
         const txn = db.transaction("properties", "readwrite");
         const properties = txn.objectStore("properties");
-        await properties
-            .put({
-                title: title,
-                type: type,
-                category: category_id,
-            })
-            .catch((e) => {
-                console.log(e.target.errorCode);
-            });
+        await properties.add({
+            title: title,
+            type: type,
+            category: category_id,
+        });
     };
     static insertAnswer = async({ db, content, property_id, match_id }) => {
         const txn = db.transaction("answers", "readwrite");
         const answers = txn.objectStore("answers");
-        await answers
-            .put({
-                content: content,
-                property: property_id,
-                match: match_id,
-            })
-            .catch((e) => {
-                console.log(e.target.errorCode);
-            });
+        await answers.add({
+            content: content,
+            property: property_id,
+            match: match_id,
+        });
     };
     static insertCategory = async({ db, title }) => {
         const txn = db.transaction("categories", "readwrite");
         const categories = txn.objectStore("categories");
-        await categories
-            .put({
-                title,
-            })
-            .catch((e) => {
-                console.log(e.target.errorCode);
-            });
+        await categories.add({
+            title,
+        });
     };
     static insertUser = async({ db, username, name }) => {
         const txn = db.transaction("users", "readwrite");
         const users = txn.objectStore("users");
-        await users
-            .put({
-                username,
-                name,
-            })
-            .catch((e) => {
-                console.log(e.target.errorCode);
-            });
+        await users.add({
+            username,
+            name,
+        });
     };
     static insertTeam = async({ db, number, name }) => {
         const txn = db.transaction("teams", "readwrite");
         const teams = txn.objectStore("teams");
-        await teams
-            .put({
-                number,
-                name,
-            })
-            .catch((e) => {
-                console.log(e.target.errorCode);
-            });
+        await teams.add({
+            number,
+            name,
+        });
     };
     static insertMatch = async({ db, team_id, user_id }) => {
         const txn = db.transaction("matches", "readwrite");
         const matches = txn.objectStore("matches");
-        await matches
-            .put({
-                team: team_id,
-                user: user_id,
-            })
-            .catch((e) => {
-                console.log(e.target.errorCode);
-            });
+        await matches.add({
+            team: team_id,
+            user: user_id,
+        });
     };
 }
 export default Database;

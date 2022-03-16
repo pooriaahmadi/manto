@@ -15,12 +15,17 @@ const NewTeam = ({ database }) => {
 			setError("Number or name is empty");
 			return;
 		}
+		try {
+			await Database.insertTeam({
+				db: database,
+				number: number,
+				name: name,
+			});
+		} catch (error) {
+			setError("Number is already in use");
+			return;
+		}
 		setError("");
-		await Database.insertTeam({
-			db: database,
-			number: number,
-			name: name,
-		});
 		navigate("/admin");
 	};
 	const handleNumberChange = (e) => {

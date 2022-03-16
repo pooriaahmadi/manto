@@ -7,6 +7,8 @@
         "@testing-library/react": "^11.2.7",
         "@testing-library/user-event": "^12.8.3",
         "idb": "^7.0.0",
+        "modern-react-qr-reader": "^1.0.12",
+        "qr-scanner": "^1.4.1",
         "qrcode": "^1.5.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",

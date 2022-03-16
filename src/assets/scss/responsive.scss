@@ -2,7 +2,7 @@
     header {
         >.left {
             >.items {
-                display: none;
+                display: none !important;
             }
         }
         >.right {
@@ -13,6 +13,40 @@
                 &:last-of-type {
                     width: 50px;
                     display: flex !important;
+                }
+            }
+        }
+    }
+    .load {
+        .scanner {
+            padding: 0 20px;
+            width: 100% !important;
+        }
+    }
+    .teams-inline {
+        .top {
+            h1 {
+                font-size: 25px;
+            }
+            .controls {
+                .new,
+                .qrcode {
+                    padding: 5px 10px !important;
+                    font-size: 15px !important;
+                }
+            }
+        }
+        .bottom {
+            .team-inline {
+                flex-direction: column;
+                h3 {
+                    font-size: 20px;
+                    margin-bottom: 10px;
+                }
+                .controls {
+                    a {
+                        font-size: 15px;
+                    }
                 }
             }
         }

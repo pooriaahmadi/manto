@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import TeamInline from "./TeamInline";
 import Database from "../../Database";
 import "../../assets/scss/teamsinline.scss";
+
 const TeamsInline = ({ database }) => {
 	const [teams, setTeams] = useState([]);
 	useEffect(() => {
@@ -21,6 +22,13 @@ const TeamsInline = ({ database }) => {
 			<div className="top">
 				<h1>Teams</h1>
 				<div className="controls">
+					<Link className="qrcode" to="/teams/qrcode">
+						QRCode
+					</Link>
+					<Link className="qrcode" to="/teams/qrcode/load">
+						Load
+					</Link>
+
 					<Link className="new" to="/teams/new">
 						New
 					</Link>

@@ -10,6 +10,10 @@ import * as idb from "idb";
 import NewTeam from "./Pages/NewTeam";
 import NewUser from "./Pages/NewUser";
 import UserQRCode from "./Pages/UserQRCode";
+import TeamsQRCode from "./Pages/TeamsQRCode";
+import UsersQRCode from "./Pages/UsersQRCode";
+import TeamsLoad from "./Pages/TeamsLoad";
+import UsersLoad from "./Pages/UsersLoad";
 const App = () => {
 	const [database, setDatabase] = useState();
 	useEffect(() => {
@@ -38,8 +42,28 @@ const App = () => {
 						element={<NewTeam database={database}></NewTeam>}
 					/>
 					<Route
+						path="/teams/qrcode"
+						element={
+							<TeamsQRCode database={database}></TeamsQRCode>
+						}
+					/>
+					<Route
+						path="/teams/qrcode/load"
+						element={<TeamsLoad database={database}></TeamsLoad>}
+					/>
+					<Route
 						path="/users/new"
 						element={<NewUser database={database}></NewUser>}
+					/>
+					<Route
+						path="/users/qrcode"
+						element={
+							<UsersQRCode database={database}></UsersQRCode>
+						}
+					/>
+					<Route
+						path="/users/qrcode/load"
+						element={<UsersLoad database={database}></UsersLoad>}
 					/>
 					<Route
 						path="/users/:id/qrcode"

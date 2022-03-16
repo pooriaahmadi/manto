@@ -15,12 +15,17 @@ const NewTeam = ({ database }) => {
 			setError("username or preferred name is empty");
 			return;
 		}
+		try {
+			await Database.insertUser({
+				db: database,
+				name: name,
+				username: username,
+			});
+		} catch (error) {
+			setError("Username is already in use");
+			return;
+		}
 		setError("");
-		await Database.insertUser({
-			db: database,
-			name: name,
-			username: username,
-		});
 		navigate("/admin");
 	};
 	const handleUsernameChange = (e) => {

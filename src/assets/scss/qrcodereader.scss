@@ -1,0 +1,20 @@
+.teams-load-qrcode {
+    width: 100%;
+    .reader {
+        height: calc(100vh - 91px);
+        display: flex;
+        justify-content: center;
+        >div {
+            all: unset !important;
+            >video {
+                top: unset !important;
+                left: unset !important;
+                width: 100% !important;
+                height: unset !important;
+                overflow: unset !important;
+                position: unset !important;
+                transform: unset !important;
+            }
+        }
+    }
+}

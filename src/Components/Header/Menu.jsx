@@ -8,7 +8,7 @@ const Menu = ({ active, toggleActive }) => {
 			<div className="top">
 				<h1>Manto</h1> <img src={close} onClick={toggleActive} alt="" />
 			</div>
-			<div className="bottom">
+			<div className="bottom" onClick={toggleActive}>
 				<HeaderItem url="/" title="Home" />
 				<HeaderItem url="/admin" title="Admin" />
 			</div>
