@@ -31,7 +31,7 @@ class Database {
             const users = txn.objectStore("users");
             try {
                 const query = await users.get(id);
-                return query.result;
+                return query;
             } catch (err) {
                 return undefined;
             }
@@ -42,7 +42,7 @@ class Database {
             const index = users.index("username");
             try {
                 const query = await index.get(username);
-                return query.result;
+                return query;
             } catch (err) {
                 return undefined;
             }
@@ -54,6 +54,11 @@ class Database {
             return (await objectStore.getAll()).map((item, index) => {
                 return {...item, id: keys[index] };
             });
+        };
+        static delete = async({ db, id }) => {
+            const txn = db.transaction("users", "readwrite");
+            const objectStore = txn.objectStore("users");
+            await objectStore.delete(id);
         };
     };
     static Teams = class Teams {

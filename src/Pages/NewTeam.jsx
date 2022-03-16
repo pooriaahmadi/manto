@@ -1,9 +1,9 @@
-import ErrorElement from "../Error/ErrorElement";
-import Database from "../../Database";
-import { useState, useEffect } from "react";
+import ErrorElement from "../Components/Error/ErrorElement";
+import Database from "../Database";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../assets/scss/inputs.scss";
-import "../../assets/scss/newteam.scss";
+import "../assets/scss/inputs.scss";
+import "../assets/scss/newteam.scss";
 const NewTeam = ({ database }) => {
 	const [number, setNumber] = useState(0);
 	const [name, setName] = useState("");

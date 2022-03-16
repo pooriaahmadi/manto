@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import TeamInline from "./TeamInline";
 import Database from "../../Database";
+import UserInline from "./UserInline";
 import "../../assets/scss/teamsinline.scss";
-const TeamsInline = ({ database }) => {
-	const [teams, setTeams] = useState([]);
+const UsersInline = ({ database }) => {
+	const [users, setUsers] = useState([]);
 	useEffect(() => {
 		const stuff = async () => {
 			try {
-				const teams = await Database.Teams.all({ db: database });
-				setTeams(teams);
+				const users = await Database.Users.all({ db: database });
+				setUsers(users);
 			} catch (error) {
 				console.log("Database is not connected yet.");
 			}
@@ -19,32 +19,32 @@ const TeamsInline = ({ database }) => {
 	return (
 		<div className="teams-inline">
 			<div className="top">
-				<h1>Teams</h1>
+				<h1>Users</h1>
 				<div className="controls">
-					<Link className="new" to="/teams/new">
+					<Link className="new" to="/users/new">
 						New
 					</Link>
 				</div>
 			</div>
 			<div className="bottom">
-				{teams.map((item, index) => {
+				{users.map((item, index) => {
 					const handleDelete = async () => {
 						const isAccepted = window.confirm(
-							`Are you sure you want to delete team, ${item.number} ${item.name}?`
+							`Are you sure you want to delete user, ${item.username} | ${item.name}?`
 						);
 						if (!isAccepted) return;
-						await Database.Teams.delete({
+						await Database.Users.delete({
 							db: database,
 							id: item.id,
 						});
-						setTeams(teams.filter((newItem) => newItem !== item));
+						setUsers(users.filter((newItem) => newItem !== item));
 					};
 					return (
-						<TeamInline
+						<UserInline
 							key={index}
 							{...item}
 							handleDelete={handleDelete}
-						></TeamInline>
+						></UserInline>
 					);
 				})}
 			</div>
@@ -52,4 +52,4 @@ const TeamsInline = ({ database }) => {
 	);
 };
 
-export default TeamsInline;
+export default UsersInline;
