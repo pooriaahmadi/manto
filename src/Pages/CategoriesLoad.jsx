@@ -26,7 +26,7 @@ const CategoriesLoad = ({ database }) => {
 		image.onload = async () => {
 			const result = await QrScanner.scanImage(image);
 			if (!result) return;
-			setResult(result);
+			setResult(result.text);
 		};
 	};
 	const handleScan = (result) => {

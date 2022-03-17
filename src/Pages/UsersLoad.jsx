@@ -31,7 +31,7 @@ const UsersLoad = ({ database }) => {
 	};
 	const handleScan = (result) => {
 		if (!result) return;
-		setResult(result);
+		setResult(result.text);
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
