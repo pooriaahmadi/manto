@@ -2,6 +2,9 @@
     "name": "manto",
     "version": "0.1.1",
     "private": true,
+    "engines": {
+        "node": "16.x"
+    },
     "dependencies": {
         "@testing-library/jest-dom": "^5.16.2",
         "@testing-library/react": "^11.2.7",
