@@ -26,12 +26,12 @@ const CategoriesLoad = ({ database }) => {
 		image.onload = async () => {
 			const result = await QrScanner.scanImage(image);
 			if (!result) return;
-			setResult(result.text);
+			setResult(result);
 		};
 	};
 	const handleScan = (result) => {
 		if (!result) return;
-		setResult(result);
+		setResult(result.text);
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
