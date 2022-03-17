@@ -25,6 +25,26 @@ class Database {
             autoIncrement: true,
         });
     };
+    static Categories = class Categories {
+        static all = async({ db }) => {
+            const txn = db.transaction("categories", "readonly");
+            const objectStore = txn.objectStore("categories");
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static delete = async({ db, id }) => {
+            const txn = db.transaction("categories", "readwrite");
+            const objectStore = txn.objectStore("categories");
+            await objectStore.delete(id);
+        };
+        static clear = async({ db }) => {
+            const txn = db.transaction("categories", "readwrite");
+            const categories = txn.objectStore("categories");
+            await categories.clear();
+        };
+    };
     static Users = class Users {
         static clear = async({ db }) => {
             const txn = db.transaction("users", "readwrite");

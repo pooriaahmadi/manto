@@ -14,6 +14,9 @@ import TeamsQRCode from "./Pages/TeamsQRCode";
 import UsersQRCode from "./Pages/UsersQRCode";
 import TeamsLoad from "./Pages/TeamsLoad";
 import UsersLoad from "./Pages/UsersLoad";
+import NewCategory from "./Pages/NewCategory";
+import CategoriesQRCode from "./Pages/CategoriesQRCode";
+import CategoriesLoad from "./Pages/CategoriesLoad";
 const App = () => {
 	const [database, setDatabase] = useState();
 	useEffect(() => {
@@ -68,6 +71,18 @@ const App = () => {
 					<Route
 						path="/users/:id/qrcode"
 						element={<UserQRCode database={database}></UserQRCode>}
+					/>
+					<Route
+						path="/categories/new"
+						element={<NewCategory database={database} />}
+					/>
+					<Route
+						path="/categories/qrcode"
+						element={<CategoriesQRCode database={database} />}
+					/>
+					<Route
+						path="/categories/qrcode/load"
+						element={<CategoriesLoad database={database} />}
 					/>
 				</Routes>
 			</BrowserRouter>
