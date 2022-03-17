@@ -1,4 +1,4 @@
-import QrReader from "modern-react-qr-reader";
+import { QrReader } from "react-qr-reader";
 import QrScanner from "qr-scanner";
 import Database from "../Database";
 import { useNavigate } from "react-router-dom";
@@ -91,9 +91,8 @@ const CategoriesLoad = ({ database }) => {
 					</div>
 					<QrReader
 						delay={300}
-						onScan={handleScan}
-						onError={handleError}
-						facingMode="environment"
+						onResult={handleScan}
+						constraints={{ facingMode: "environment" }}
 					></QrReader>
 				</div>
 			) : (
