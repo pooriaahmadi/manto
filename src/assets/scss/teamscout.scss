@@ -1,0 +1,38 @@
+.team-scout {
+    padding: 0 20px;
+    width: 100%;
+    .top {
+        width: inherit;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 50px;
+        >.avatar {
+            margin-right: 30px;
+            width: 100px;
+            height: 100px;
+            background-color: #007AFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            h1 {
+                color: white;
+                font-size: 45px;
+            }
+        }
+        >h1 {
+            font-weight: bolder !important;
+            font-size: 35px;
+            margin-right: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: white;
+            background-color: #007AFF;
+            padding: 10px 15px;
+            font-weight: bolder;
+            border-radius: 5px;
+        }
+    }
+}

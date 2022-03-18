@@ -19,6 +19,8 @@ import CategoriesQRCode from "./Pages/CategoriesQRCode";
 import CategoriesLoad from "./Pages/CategoriesLoad";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import NewProperty from "./Pages/NewProperty";
+import Scout from "./Pages/Scout";
+import TeamScout from "./Components/Teams/TeamScout";
 
 const App = () => {
 	const [database, setDatabase] = useState();
@@ -75,6 +77,10 @@ const App = () => {
 						element={<Admin database={database}></Admin>}
 					/>
 					<Route
+						path="/scout"
+						element={<Scout database={database}></Scout>}
+					/>
+					<Route
 						path="/teams/new"
 						element={<NewTeam database={database}></NewTeam>}
 					/>
@@ -87,6 +93,10 @@ const App = () => {
 					<Route
 						path="/teams/qrcode/load"
 						element={<TeamsLoad database={database}></TeamsLoad>}
+					/>
+					<Route
+						path="/teams/:id/scout"
+						element={<TeamScout database={database}></TeamScout>}
 					/>
 					<Route
 						path="/users/new"

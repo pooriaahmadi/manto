@@ -4,7 +4,7 @@ import TeamInline from "./TeamInline";
 import Database from "../../Database";
 import "../../assets/scss/teamsinline.scss";
 
-const TeamsInline = ({ database }) => {
+const TeamsInline = ({ database, scout = false }) => {
 	const [teams, setTeams] = useState([]);
 	useEffect(() => {
 		const stuff = async () => {
@@ -22,16 +22,20 @@ const TeamsInline = ({ database }) => {
 			<div className="top">
 				<h1>Teams</h1>
 				<div className="controls">
-					<Link className="qrcode" to="/teams/qrcode">
-						QRCode
-					</Link>
-					<Link className="qrcode" to="/teams/qrcode/load">
-						Load
-					</Link>
+					{!scout && (
+						<>
+							<Link className="qrcode" to="/teams/qrcode">
+								QRCode
+							</Link>
+							<Link className="qrcode" to="/teams/qrcode/load">
+								Load
+							</Link>
 
-					<Link className="new" to="/teams/new">
-						New
-					</Link>
+							<Link className="new" to="/teams/new">
+								New
+							</Link>
+						</>
+					)}
 				</div>
 			</div>
 			<div className="bottom">
@@ -52,6 +56,7 @@ const TeamsInline = ({ database }) => {
 							key={index}
 							{...item}
 							handleDelete={handleDelete}
+							scout={scout}
 						></TeamInline>
 					);
 				})}

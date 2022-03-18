@@ -105,7 +105,7 @@ class Database {
             const teams = txn.objectStore("teams");
             try {
                 const query = await teams.get(id);
-                return query.result;
+                return query;
             } catch (err) {
                 return undefined;
             }
@@ -116,7 +116,7 @@ class Database {
             const index = teams.index("number");
             try {
                 const query = await index.get(number);
-                return query.result;
+                return query;
             } catch (err) {
                 return undefined;
             }

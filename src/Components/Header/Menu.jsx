@@ -10,6 +10,7 @@ const Menu = ({ active, toggleActive }) => {
 			</div>
 			<div className="bottom" onClick={toggleActive}>
 				<HeaderItem url="/" title="Home" />
+				<HeaderItem url="/scout" title="Scout"></HeaderItem>
 				<HeaderItem url="/admin" title="Admin" />
 			</div>
 		</div>
