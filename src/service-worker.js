@@ -6,7 +6,6 @@
 // code you'd like.
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
-const version = "1.0.0";
 import { clientsClaim } from "workbox-core";
 import { ExpirationPlugin } from "workbox-expiration";
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
@@ -24,7 +23,7 @@ precacheAndRoute(self.__WB_MANIFEST);
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
 // https://developers.google.com/web/fundamentals/architecture/app-shell
-const VERSION = require("../package.json").version;
+const VERSION = "1.0.0";
 const fileExtensionRegexp = new RegExp("/[^/?]+\\.[^/]+$");
 registerRoute(
     // Return false to exempt requests from being fulfilled by index.html.
