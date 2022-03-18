@@ -17,8 +17,21 @@ import UsersLoad from "./Pages/UsersLoad";
 import NewCategory from "./Pages/NewCategory";
 import CategoriesQRCode from "./Pages/CategoriesQRCode";
 import CategoriesLoad from "./Pages/CategoriesLoad";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+
 const App = () => {
 	const [database, setDatabase] = useState();
+	const [showReload, setShowReload] = useState(false);
+	const [waitingWorker, setWaitingWorker] = useState(null);
+	const onSWUpdate = (registration) => {
+		setShowReload(true);
+		setWaitingWorker(registration.waiting);
+	};
+	const reloadPage = () => {
+		waitingWorker?.postMessage({ type: "SKIP_WAITING" });
+		setShowReload(false);
+		window.location.reload(true);
+	};
 	useEffect(() => {
 		const stuff = async () => {
 			const db = await idb.openDB("manto", 1, {
@@ -28,12 +41,19 @@ const App = () => {
 			});
 			setDatabase(db);
 		};
+		serviceWorkerRegistration.register({ onUpdate: onSWUpdate });
 		stuff();
 	}, []);
 	return (
 		<div className="app">
 			<BrowserRouter>
 				<Header></Header>
+				{showReload && (
+					<h1>
+						new version is available{" "}
+						<button onClick={reloadPage}>reload</button>
+					</h1>
+				)}
 				<Routes>
 					<Route path="/" element={<h1>HOME PAGE</h1>} />
 					<Route
