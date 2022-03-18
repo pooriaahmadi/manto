@@ -26,18 +26,20 @@ const CategoriesLoad = ({ database }) => {
 		image.onload = async () => {
 			const result = await QrScanner.scanImage(image);
 			if (!result) return;
-			setResult(result);
+			setResult(JSON.parse(result));
 		};
 	};
 	const handleScan = (result) => {
 		if (!result) return;
-		setResult(result.text);
+		setResult(JSON.parse(result.text));
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		let categories = result.categories;
+		let properties = result.properties;
 		const categorySchema = ["id", "title"];
-		let categories = chunkArrayInGroups(
-			result.split(","),
+		categories = chunkArrayInGroups(
+			categories.split(","),
 			categorySchema.length
 		).map((item) => {
 			return {
@@ -45,8 +47,21 @@ const CategoriesLoad = ({ database }) => {
 				title: item[1],
 			};
 		});
+		const propertySchema = ["id", "title", "type", "category_id"];
+		properties = chunkArrayInGroups(
+			properties.split(","),
+			propertySchema.length
+		).map((item) => {
+			return {
+				id: parseInt(item[0]),
+				title: item[1],
+				type: parseInt(item[2]),
+				category_id: parseInt(item[3]),
+			};
+		});
 		if (method === 0) {
 			await Database.Categories.clear({ db: database });
+			await Database.Properties.clear({ db: database });
 		} else if (method === 1) {
 			const oldCategories = await Database.Categories.all({
 				db: database,
@@ -54,13 +69,33 @@ const CategoriesLoad = ({ database }) => {
 			categories = oldCategories
 				.filter((x) => !categories.includes(x))
 				.concat(categories.filter((x) => !oldCategories.includes(x)));
+			const oldProperties = await Database.Properties.all({
+				db: database,
+			});
+			properties = oldProperties
+				.filter((x) => !properties.includes(x))
+				.concat(properties.filter((x) => !oldProperties.includes(x)));
 		}
+
 		for (let i = 0; i < categories.length; i++) {
 			const category = categories[i];
 			try {
 				await Database.insertCategory({
 					db: database,
 					title: category.title,
+				});
+			} catch (error) {
+				console.error(error);
+			}
+		}
+		for (let i = 0; i < properties.length; i++) {
+			const property = properties[i];
+			try {
+				await Database.insertProperty({
+					db: database,
+					title: property.title,
+					type: property.type,
+					category_id: property.category_id,
 				});
 			} catch (error) {
 				console.error(error);

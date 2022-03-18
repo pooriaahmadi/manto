@@ -54,6 +54,7 @@ const CategoriesInline = ({ database }) => {
 							key={index}
 							{...item}
 							handleDelete={handleDelete}
+							database={database}
 						></CategoryInline>
 					);
 				})}

@@ -21,9 +21,10 @@ class Database {
         db.createObjectStore("categories", {
             autoIncrement: true,
         });
-        db.createObjectStore("properties", {
+        const properties = db.createObjectStore("properties", {
             autoIncrement: true,
         });
+        properties.createIndex("category", "category");
     };
     static Categories = class Categories {
         static all = async({ db }) => {
@@ -43,6 +44,13 @@ class Database {
             const txn = db.transaction("categories", "readwrite");
             const categories = txn.objectStore("categories");
             await categories.clear();
+        };
+        static getById = async({ db, id }) => {
+            const txn = db.transaction("categories", "readonly");
+            const categories = txn.objectStore("categories");
+            try {
+                return await categories.get(id);
+            } catch (error) {}
         };
     };
     static Users = class Users {
@@ -125,6 +133,35 @@ class Database {
             const txn = db.transaction("teams", "readwrite");
             const objectStore = txn.objectStore("teams");
             await objectStore.delete(id);
+        };
+    };
+    static Properties = class Properties {
+        static getByCategory = async({ db, category_id }) => {
+            const txn = db.transaction("properties", "readonly");
+            const objectStore = txn.objectStore("properties");
+            const index = objectStore.index("category");
+            const keys = await objectStore.getAllKeys();
+            return (await index.getAll(category_id)).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static delete = async({ db, id }) => {
+            const txn = db.transaction("properties", "readwrite");
+            const objectStore = txn.objectStore("properties");
+            await objectStore.delete(id);
+        };
+        static all = async({ db }) => {
+            const txn = db.transaction("properties", "readonly");
+            const objectStore = txn.objectStore("properties");
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static clear = async({ db }) => {
+            const txn = db.transaction("properties", "readwrite");
+            const properties = txn.objectStore("properties");
+            await properties.clear();
         };
     };
     static insertProperty = async({ db, title, type, category_id }) => {

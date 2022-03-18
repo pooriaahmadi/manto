@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Database from "../Database";
 import qrcode from "qrcode";
+import { Link } from "react-router-dom";
 import "../assets/scss/userQRCode.scss";
 
 const TeamsQRCode = ({ database }) => {
@@ -33,6 +34,7 @@ const TeamsQRCode = ({ database }) => {
 	}, [database]);
 	return (
 		<div className="user-qrcode">
+			<Link to="/admin">Go back</Link>
 			<img src={image} alt="" />
 		</div>
 	);

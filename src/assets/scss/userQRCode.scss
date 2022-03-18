@@ -3,8 +3,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     img {
-        max-height: calc(100vh - 100px);
+        max-height: calc(100vh - 200px);
         max-width: 100%;
+    }
+    a {
+        text-decoration: none;
+        color: white;
+        background-color: #007AFF;
+        padding: 10px 20px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
     }
 }

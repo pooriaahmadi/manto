@@ -18,6 +18,7 @@ import NewCategory from "./Pages/NewCategory";
 import CategoriesQRCode from "./Pages/CategoriesQRCode";
 import CategoriesLoad from "./Pages/CategoriesLoad";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import NewProperty from "./Pages/NewProperty";
 
 const App = () => {
 	const [database, setDatabase] = useState();
@@ -34,9 +35,22 @@ const App = () => {
 	};
 	useEffect(() => {
 		const stuff = async () => {
-			const db = await idb.openDB("manto", 1, {
-				upgrade(db, oldVersion, newVersion, transaction) {
-					Database.first_time(db);
+			const db = await idb.openDB("manto", 2, {
+				async upgrade(db, oldVersion, newVersion, transaction) {
+					const objectStores = [
+						"users",
+						"teams",
+						"properties",
+						"categories",
+						"answers",
+						"matches",
+					];
+					for (let i = 0; i < objectStores.length; i++) {
+						try {
+							await db.deleteObjectStore(objectStores[i]);
+						} catch (error) {}
+					}
+					await Database.first_time(db);
 				},
 			});
 			setDatabase(db);
@@ -103,6 +117,10 @@ const App = () => {
 					<Route
 						path="/categories/qrcode/load"
 						element={<CategoriesLoad database={database} />}
+					/>
+					<Route
+						path="/properties/category/:id/new"
+						element={<NewProperty database={database} />}
 					/>
 				</Routes>
 			</BrowserRouter>
