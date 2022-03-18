@@ -13,7 +13,7 @@ const chunkArrayInGroups = (arr, size) => {
 	}
 	return myArray;
 };
-const CategoriesLoad = ({ database }) => {
+const CategoriesLoad = ({ database, redirect = "/admin" }) => {
 	const navigate = useNavigate();
 	const [result, setResult] = useState("");
 	const [method, setMethod] = useState(0);
@@ -101,7 +101,7 @@ const CategoriesLoad = ({ database }) => {
 				console.error(error);
 			}
 		}
-		navigate("/admin");
+		navigate(redirect);
 	};
 	const handleError = (err) => {
 		console.error(err);

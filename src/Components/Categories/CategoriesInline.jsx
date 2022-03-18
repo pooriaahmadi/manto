@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Database from "../../Database";
 import CategoryInline from "./CategoryInline";
 import "../../assets/scss/teamsinline.scss";
-const CategoriesInline = ({ database }) => {
+const CategoriesInline = ({ database, scout = false }) => {
 	const [categories, setCategories] = useState([]);
 	useEffect(() => {
 		const stuff = async () => {
@@ -23,15 +23,27 @@ const CategoriesInline = ({ database }) => {
 			<div className="top">
 				<h1>Categories</h1>
 				<div className="controls">
-					<Link className="qrcode" to="/categories/qrcode">
-						QRCode
-					</Link>
-					<Link className="qrcode" to="/categories/qrcode/load">
+					<Link
+						className="qrcode"
+						to={
+							scout
+								? "/categories/qrcode/load/scout"
+								: "/categories/qrcode/load"
+						}
+					>
 						Load
 					</Link>
-					<Link className="new" to="/categories/new">
-						New
-					</Link>
+					{!scout && (
+						<>
+							<Link className="qrcode" to="/categories/qrcode">
+								QRCode
+							</Link>
+
+							<Link className="new" to="/categories/new">
+								New
+							</Link>
+						</>
+					)}
 				</div>
 			</div>
 			<div className="bottom">
@@ -55,6 +67,7 @@ const CategoriesInline = ({ database }) => {
 							{...item}
 							handleDelete={handleDelete}
 							database={database}
+							scout={scout}
 						></CategoryInline>
 					);
 				})}

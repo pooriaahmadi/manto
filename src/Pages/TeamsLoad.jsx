@@ -13,7 +13,7 @@ const chunkArrayInGroups = (arr, size) => {
 	}
 	return myArray;
 };
-const TeamsLoad = ({ database }) => {
+const TeamsLoad = ({ database, redirect = "/admin" }) => {
 	const navigate = useNavigate();
 	const [result, setResult] = useState("");
 	const [method, setMethod] = useState(0);
@@ -66,7 +66,7 @@ const TeamsLoad = ({ database }) => {
 				console.error(error);
 			}
 		}
-		navigate("/admin");
+		navigate(redirect);
 	};
 	const handleError = (err) => {
 		console.error(err);

@@ -1,10 +1,16 @@
 import "../../assets/scss/teaminline.scss";
-const PropertyInline = ({ id, title, type, handleDelete }) => {
+const PropertyInline = ({
+	id,
+	title,
+	type,
+	handleDelete,
+	scout = { scout },
+}) => {
 	return (
 		<div className="team-inline">
 			<h3>{title}</h3>
 			<div className="controls">
-				<button onClick={handleDelete}>Delete</button>
+				{!scout && <button onClick={handleDelete}>Delete</button>}
 			</div>
 		</div>
 	);

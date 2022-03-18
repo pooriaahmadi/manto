@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import MatchesInline from "../Matches/MatchesInline";
 import Database from "../../Database";
 import "../../assets/scss/teamscout.scss";
 
@@ -31,6 +32,7 @@ const TeamScout = ({ database }) => {
 				</div>
 				<h1>{team.name}</h1>
 			</div>
+			<MatchesInline database={database} team_id={id} />
 		</div>
 	);
 };

@@ -22,15 +22,21 @@ const TeamsInline = ({ database, scout = false }) => {
 			<div className="top">
 				<h1>Teams</h1>
 				<div className="controls">
+					<Link
+						className="qrcode"
+						to={
+							scout
+								? "/teams/qrcode/load/scout"
+								: "/teams/qrcode/load"
+						}
+					>
+						Load
+					</Link>
 					{!scout && (
 						<>
 							<Link className="qrcode" to="/teams/qrcode">
 								QRCode
 							</Link>
-							<Link className="qrcode" to="/teams/qrcode/load">
-								Load
-							</Link>
-
 							<Link className="new" to="/teams/new">
 								New
 							</Link>
@@ -57,7 +63,7 @@ const TeamsInline = ({ database, scout = false }) => {
 							{...item}
 							handleDelete={handleDelete}
 							scout={scout}
-						></TeamInline>
+						/>
 					);
 				})}
 			</div>

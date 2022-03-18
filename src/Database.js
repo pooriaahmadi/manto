@@ -12,9 +12,11 @@ class Database {
         teams.createIndex("number", "number", {
             unique: true,
         });
-        db.createObjectStore("matches", {
+        const matches = db.createObjectStore("matches", {
             autoIncrement: true,
         });
+        matches.createIndex("team", "team");
+        matches.createIndex("user", "user");
         db.createObjectStore("answers", {
             autoIncrement: true,
         });
@@ -25,6 +27,30 @@ class Database {
             autoIncrement: true,
         });
         properties.createIndex("category", "category");
+    };
+    static Matches = class Matches {
+        static all = async({ db }) => {
+            const txn = db.transaction("matches", "readonly");
+            const objectStore = txn.objectStore("matches");
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static getByTeam = async({ db, team_id }) => {
+            const txn = db.transaction("matches", "readonly");
+            const objectStore = txn.objectStore("matches");
+            const index = objectStore.index("team");
+            const keys = await index.getAllKeys(team_id);
+            return (await index.getAll(team_id)).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static delete = async({ db, id }) => {
+            const txn = db.transaction("matches", "readwrite");
+            const objectStore = txn.objectStore("matches");
+            await objectStore.delete(id);
+        };
     };
     static Categories = class Categories {
         static all = async({ db }) => {
@@ -74,8 +100,9 @@ class Database {
             const users = txn.objectStore("users");
             const index = users.index("username");
             try {
+                const id = await index.getKey(username);
                 const query = await index.get(username);
-                return query;
+                return { id, ...query };
             } catch (err) {
                 return undefined;
             }
@@ -140,7 +167,7 @@ class Database {
             const txn = db.transaction("properties", "readonly");
             const objectStore = txn.objectStore("properties");
             const index = objectStore.index("category");
-            const keys = await objectStore.getAllKeys();
+            const keys = await index.getAllKeys(category_id);
             return (await index.getAll(category_id)).map((item, index) => {
                 return { id: keys[index], ...item };
             });
@@ -192,7 +219,7 @@ class Database {
     static insertUser = async({ db, username, name }) => {
         const txn = db.transaction("users", "readwrite");
         const users = txn.objectStore("users");
-        await users.add({
+        return await users.add({
             username,
             name,
         });
@@ -208,7 +235,7 @@ class Database {
     static insertMatch = async({ db, team_id, user_id }) => {
         const txn = db.transaction("matches", "readwrite");
         const matches = txn.objectStore("matches");
-        await matches.add({
+        return await matches.add({
             team: team_id,
             user: user_id,
         });

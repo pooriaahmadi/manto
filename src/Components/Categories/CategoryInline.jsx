@@ -4,7 +4,13 @@ import PropertyInline from "../Properties/PropertyInline";
 import { Link } from "react-router-dom";
 import Database from "../../Database";
 
-const CategoryInline = ({ id, title, handleDelete, database }) => {
+const CategoryInline = ({
+	id,
+	title,
+	handleDelete,
+	database,
+	scout = false,
+}) => {
 	const [properties, setProperties] = useState([]);
 	const handleDeleteWrapper = async () => {
 		for (let i = 0; i < properties.length; i++) {
@@ -27,14 +33,20 @@ const CategoryInline = ({ id, title, handleDelete, database }) => {
 			<div className="top">
 				<h2>{title}</h2>
 				<div className="controls">
-					<Link
-						style={{ marginRight: "10px" }}
-						className="new"
-						to={`/properties/category/${id}/new`}
-					>
-						New
-					</Link>
-					<button onClick={handleDeleteWrapper}>Delete</button>
+					{!scout && (
+						<>
+							<Link
+								style={{ marginRight: "10px" }}
+								className="new"
+								to={`/properties/category/${id}/new`}
+							>
+								New
+							</Link>
+							<button onClick={handleDeleteWrapper}>
+								Delete
+							</button>
+						</>
+					)}
 				</div>
 			</div>
 			<div className="bottom">
@@ -57,6 +69,7 @@ const CategoryInline = ({ id, title, handleDelete, database }) => {
 							key={index}
 							{...item}
 							handleDelete={handleDelete}
+							scout={scout}
 						></PropertyInline>
 					);
 				})}

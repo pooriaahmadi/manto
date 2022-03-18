@@ -21,6 +21,7 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import NewProperty from "./Pages/NewProperty";
 import Scout from "./Pages/Scout";
 import TeamScout from "./Components/Teams/TeamScout";
+import Home from "./Pages/Home";
 
 const App = () => {
 	const [database, setDatabase] = useState();
@@ -37,7 +38,7 @@ const App = () => {
 	};
 	useEffect(() => {
 		const stuff = async () => {
-			const db = await idb.openDB("manto", 2, {
+			const db = await idb.openDB("manto", 4, {
 				async upgrade(db, oldVersion, newVersion, transaction) {
 					const objectStores = [
 						"users",
@@ -66,12 +67,12 @@ const App = () => {
 				<Header></Header>
 				{showReload && (
 					<h1>
-						new version is available{" "}
+						new version is available
 						<button onClick={reloadPage}>reload</button>
 					</h1>
 				)}
 				<Routes>
-					<Route path="/" element={<h1>HOME PAGE</h1>} />
+					<Route path="/" element={<Home database={database} />} />
 					<Route
 						path="/admin"
 						element={<Admin database={database}></Admin>}
@@ -93,6 +94,15 @@ const App = () => {
 					<Route
 						path="/teams/qrcode/load"
 						element={<TeamsLoad database={database}></TeamsLoad>}
+					/>
+					<Route
+						path="/teams/qrcode/load/scout"
+						element={
+							<TeamsLoad
+								database={database}
+								redirect="/scout"
+							></TeamsLoad>
+						}
 					/>
 					<Route
 						path="/teams/:id/scout"
@@ -127,6 +137,15 @@ const App = () => {
 					<Route
 						path="/categories/qrcode/load"
 						element={<CategoriesLoad database={database} />}
+					/>
+					<Route
+						path="/categories/qrcode/load/scout"
+						element={
+							<CategoriesLoad
+								database={database}
+								redirect="/scout"
+							/>
+						}
 					/>
 					<Route
 						path="/properties/category/:id/new"
