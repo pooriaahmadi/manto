@@ -55,6 +55,7 @@ const Home = ({ database }) => {
 			navigate("/scout");
 		}
 	};
+	if (!database) return <h1>Database is not ready yet.</h1>;
 	return (
 		<div className="load">
 			<div className="scanner">

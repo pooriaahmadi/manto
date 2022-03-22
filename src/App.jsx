@@ -22,6 +22,7 @@ import NewProperty from "./Pages/NewProperty";
 import Scout from "./Pages/Scout";
 import TeamScout from "./Components/Teams/TeamScout";
 import Home from "./Pages/Home";
+import MatchEdit from "./Pages/MatchEdit";
 
 const App = () => {
 	const [database, setDatabase] = useState();
@@ -36,9 +37,13 @@ const App = () => {
 		setShowReload(false);
 		window.location.reload(true);
 	};
+	const ReloadPageElement = () => {
+		reloadPage();
+		window.location.href = "/";
+	};
 	useEffect(() => {
 		const stuff = async () => {
-			const db = await idb.openDB("manto", 4, {
+			const db = await idb.openDB("manto", 5, {
 				async upgrade(db, oldVersion, newVersion, transaction) {
 					const objectStores = [
 						"users",
@@ -47,6 +52,7 @@ const App = () => {
 						"categories",
 						"answers",
 						"matches",
+						"waiting_matches",
 					];
 					for (let i = 0; i < objectStores.length; i++) {
 						try {
@@ -109,6 +115,10 @@ const App = () => {
 						element={<TeamScout database={database}></TeamScout>}
 					/>
 					<Route
+						path="/teams/:teamId/matches/:matchId/edit"
+						element={<MatchEdit database={database} />}
+					/>
+					<Route
 						path="/users/new"
 						element={<NewUser database={database}></NewUser>}
 					/>
@@ -151,6 +161,7 @@ const App = () => {
 						path="/properties/category/:id/new"
 						element={<NewProperty database={database} />}
 					/>
+					<Route path="/update" element={<ReloadPageElement />} />
 				</Routes>
 			</BrowserRouter>
 		</div>

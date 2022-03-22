@@ -27,7 +27,12 @@ const MatchesInline = ({ database, team_id }) => {
 			team_id,
 			user_id,
 		});
+		await Database.WaitingMatches.insert({
+			db: database,
+			match_id: match,
+		});
 		setMatches([...matches, { id: match, team: team_id, user: user_id }]);
+		navigate(`/teams/${team_id}/matches/${match}/edit`);
 	};
 	return (
 		<div className="teams-inline">
@@ -58,6 +63,10 @@ const MatchesInline = ({ database, team_id }) => {
 							`Are you sure you want to delete match #${item.id}?`
 						);
 						if (!isAccepted) return;
+						await Database.WaitingMatches.deleteByMatch({
+							db: database,
+							match_id: item.id,
+						});
 						await Database.Matches.delete({
 							db: database,
 							id: item.id,

@@ -27,6 +27,37 @@ class Database {
             autoIncrement: true,
         });
         properties.createIndex("category", "category");
+
+        const waitingMatches = db.createObjectStore("waiting_matches", {
+            autoIncrement: true,
+        });
+        waitingMatches.createIndex("match", "match");
+    };
+    static WaitingMatches = class WaitingMatches {
+        static insert = async({ db, match_id }) => {
+            const txn = db.transaction("waiting_matches", "readwrite");
+            const waitingMatches = txn.objectStore("waiting_matches");
+            return await waitingMatches.add({ match: match_id });
+        };
+        static delete = async({ db, id }) => {
+            const txn = db.transaction("waiting_matches", "readwrite");
+            const waitingMatches = txn.objectStore("waiting_matches");
+            await waitingMatches.delete(id);
+        };
+        static deleteByMatch = async({ db, match_id }) => {
+            const txn = db.transaction("waiting_matches", "readwrite");
+            const waitingMatches = txn.objectStore("waiting_matches");
+            const index = waitingMatches.index("match");
+            await waitingMatches.delete(await index.getKey(match_id));
+        };
+        static all = async({ db }) => {
+            const txn = db.transaction("waiting_matches", "readonly");
+            const objectStore = txn.objectStore("waiting_matches");
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
     };
     static Matches = class Matches {
         static all = async({ db }) => {
@@ -45,6 +76,13 @@ class Database {
             return (await index.getAll(team_id)).map((item, index) => {
                 return { id: keys[index], ...item };
             });
+        };
+        static getById = async({ db, id }) => {
+            const txn = db.transaction("matches", "readonly");
+            const objectStore = txn.objectStore("matches");
+            try {
+                return await objectStore.get(id);
+            } catch (error) {}
         };
         static delete = async({ db, id }) => {
             const txn = db.transaction("matches", "readwrite");
