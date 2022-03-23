@@ -10,7 +10,7 @@ const PropertyInline = ({
 	return (
 		<div className="team-inline">
 			<h3>
-				{type === 3 ? title.split(",")[0] : title} | {types[type]}
+				{type === 3 ? title.split("|")[0] : title} | {types[type]}
 			</h3>
 			<div className="controls">
 				{!scout && <button onClick={handleDelete}>Delete</button>}

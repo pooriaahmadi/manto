@@ -58,9 +58,9 @@ const CategoriesLoad = ({ database, redirect = "/admin" }) => {
 			return {
 				id: parseInt(item[0]),
 				title: item[1],
-				properties: properties.filter(
-					(property) => property.category_id === parseInt(item[0])
-				),
+				properties: properties.filter((property) => {
+					return property.category_id === parseInt(item[0]);
+				}),
 			};
 		});
 		if (method === 0) {
