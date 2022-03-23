@@ -3,19 +3,27 @@ import QrScanner from "qr-scanner";
 import { QrReader } from "react-qr-reader";
 import Database from "../Database";
 import { useEffect } from "react";
+import { useState } from "react";
 
 const Home = ({ database }) => {
 	const navigate = useNavigate();
+	const [isOk, setIsOk] = useState(false);
 	useEffect(() => {
 		const stuff = async () => {
 			try {
 				const id = localStorage.getItem("user");
-				if (!id) return;
+				if (!id) {
+					setIsOk(true);
+					return;
+				}
 				const user = await Database.Users.getById({
 					db: database,
 					id: parseInt(id),
 				});
-				if (!user) return;
+				if (!user) {
+					setIsOk(true);
+					return;
+				}
 				navigate("/scout");
 			} catch (error) {
 				console.log("Database is not ready yet");
@@ -56,6 +64,7 @@ const Home = ({ database }) => {
 		}
 	};
 	if (!database) return <h1>Database is not ready yet.</h1>;
+	if (!isOk) return <></>;
 	return (
 		<div className="load">
 			<div className="scanner">

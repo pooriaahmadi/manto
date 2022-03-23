@@ -37,16 +37,6 @@ const CategoriesLoad = ({ database, redirect = "/admin" }) => {
 		e.preventDefault();
 		let categories = result.categories;
 		let properties = result.properties;
-		const categorySchema = ["id", "title"];
-		categories = chunkArrayInGroups(
-			categories.split(","),
-			categorySchema.length
-		).map((item) => {
-			return {
-				id: parseInt(item[0]),
-				title: item[1],
-			};
-		});
 		const propertySchema = ["id", "title", "type", "category_id"];
 		properties = chunkArrayInGroups(
 			properties.split(","),
@@ -57,6 +47,20 @@ const CategoriesLoad = ({ database, redirect = "/admin" }) => {
 				title: item[1],
 				type: parseInt(item[2]),
 				category_id: parseInt(item[3]),
+			};
+		});
+
+		const categorySchema = ["id", "title"];
+		categories = chunkArrayInGroups(
+			categories.split(","),
+			categorySchema.length
+		).map((item) => {
+			return {
+				id: parseInt(item[0]),
+				title: item[1],
+				properties: properties.filter(
+					(property) => property.category_id === parseInt(item[0])
+				),
 			};
 		});
 		if (method === 0) {
@@ -80,23 +84,19 @@ const CategoriesLoad = ({ database, redirect = "/admin" }) => {
 		for (let i = 0; i < categories.length; i++) {
 			const category = categories[i];
 			try {
-				await Database.insertCategory({
+				const category_id = await Database.insertCategory({
 					db: database,
 					title: category.title,
 				});
-			} catch (error) {
-				console.error(error);
-			}
-		}
-		for (let i = 0; i < properties.length; i++) {
-			const property = properties[i];
-			try {
-				await Database.insertProperty({
-					db: database,
-					title: property.title,
-					type: property.type,
-					category_id: property.category_id,
-				});
+				for (let k = 0; k < category.properties; k++) {
+					const property = category.properties[k];
+					await Database.insertProperty({
+						db: database,
+						category_id,
+						title: property.title,
+						type: property.type,
+					});
+				}
 			} catch (error) {
 				console.error(error);
 			}

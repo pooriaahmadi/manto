@@ -79,6 +79,7 @@ const NewProperty = ({ database }) => {
 						<option value="0">Text</option>
 						<option value="1">Number</option>
 						<option value="2">True/False</option>
+						<option value="3">Options</option>
 					</select>
 				</div>
 

@@ -250,7 +250,7 @@ class Database {
     static insertCategory = async({ db, title }) => {
         const txn = db.transaction("categories", "readwrite");
         const categories = txn.objectStore("categories");
-        await categories.add({
+        return await categories.add({
             title,
         });
     };
