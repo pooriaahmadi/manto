@@ -17,9 +17,11 @@ class Database {
         });
         matches.createIndex("team", "team");
         matches.createIndex("user", "user");
-        db.createObjectStore("answers", {
+        const answers = db.createObjectStore("answers", {
             autoIncrement: true,
         });
+        answers.createIndex("proeprty", "property");
+        answers.createIndex("match", "match");
         db.createObjectStore("categories", {
             autoIncrement: true,
         });
@@ -237,6 +239,21 @@ class Database {
             type: type,
             category: category_id,
         });
+    };
+    static Answers = class Answers {
+        static getByProperty = async({ db, property_id }) => {
+            const txn = db.transaction("answers", "readwrite");
+            const answers = txn.objectStore("answers");
+            const index = answers.index("proeprty");
+            try {
+                return {
+                    ...(await index.get(property_id)),
+                    id: await index.getKey(property_id),
+                };
+            } catch (error) {
+                return;
+            }
+        };
     };
     static insertAnswer = async({ db, content, property_id, match_id }) => {
         const txn = db.transaction("answers", "readwrite");

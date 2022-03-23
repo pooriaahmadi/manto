@@ -13,7 +13,7 @@ const PropertiesScout = ({ database, matchId, categoryId }) => {
 			setProperties(properties);
 		};
 		stuff();
-	});
+	}, []);
 	return (
 		<div className="properties">
 			{properties.map((item) => (

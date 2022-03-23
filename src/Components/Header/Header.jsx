@@ -22,6 +22,7 @@ const Header = () => {
 						<HeaderItem url="/" title="Home"></HeaderItem>
 						<HeaderItem url="/scout" title="Scout"></HeaderItem>
 						<HeaderItem url="/admin" title="Admin"></HeaderItem>
+						<HeaderItem url="/update" title="Update"></HeaderItem>
 					</div>
 				</div>
 				<div className="right">
