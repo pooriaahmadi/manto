@@ -21,20 +21,6 @@ const CategoriesQRCode = ({ database }) => {
 				const properties = await Database.Properties.all({
 					db: database,
 				});
-				console.log(
-					JSON.stringify({
-						categories: categories
-							.map((item) =>
-								objectToArray({ object: item }).join(",")
-							)
-							.join(","),
-						properties: properties
-							.map((item) =>
-								objectToArray({ object: item }).join(",")
-							)
-							.join(","),
-					})
-				);
 				setImage(
 					await qrcode.toDataURL(
 						JSON.stringify({

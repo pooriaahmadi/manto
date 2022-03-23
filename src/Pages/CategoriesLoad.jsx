@@ -88,7 +88,7 @@ const CategoriesLoad = ({ database, redirect = "/admin" }) => {
 					db: database,
 					title: category.title,
 				});
-				for (let k = 0; k < category.properties; k++) {
+				for (let k = 0; k < category.properties.length; k++) {
 					const property = category.properties[k];
 					await Database.insertProperty({
 						db: database,

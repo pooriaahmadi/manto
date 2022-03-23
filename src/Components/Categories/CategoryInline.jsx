@@ -13,10 +13,13 @@ const CategoryInline = ({
 }) => {
 	const [properties, setProperties] = useState([]);
 	const handleDeleteWrapper = async () => {
-		for (let i = 0; i < properties.length; i++) {
-			await Database.Properties.delete(properties[i].id);
-		}
 		await handleDelete();
+		for (let i = 0; i < properties.length; i++) {
+			await Database.Properties.delete({
+				db: database,
+				id: properties[i].id,
+			});
+		}
 	};
 	useEffect(() => {
 		const stuff = async () => {
