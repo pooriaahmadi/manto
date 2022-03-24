@@ -43,7 +43,7 @@ const App = () => {
 	};
 	useEffect(() => {
 		const stuff = async () => {
-			const db = await idb.openDB("manto", 5, {
+			const db = await idb.openDB("manto", 6, {
 				async upgrade(db, oldVersion, newVersion, transaction) {
 					const objectStores = [
 						"users",
@@ -53,6 +53,7 @@ const App = () => {
 						"answers",
 						"matches",
 						"waiting_matches",
+						"qualification_matches",
 					];
 					for (let i = 0; i < objectStores.length; i++) {
 						try {

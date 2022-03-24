@@ -10,6 +10,10 @@ const UserQRCode = ({ database }) => {
 	id = parseInt(id);
 	const [user, setUser] = useState({});
 	const [image, setImage] = useState("");
+	const objectToArray = ({ object = {} }) => {
+		const keys = Object.keys(object);
+		return keys.map((item) => object[item]);
+	};
 	useEffect(() => {
 		const stuff = async () => {
 			try {
@@ -18,9 +22,30 @@ const UserQRCode = ({ database }) => {
 					id: id,
 				});
 				setUser(user);
+				const qualificationMatches =
+					await Database.QualificationMatches.all({ db: database });
+				console.log(
+					JSON.stringify({
+						id: id,
+						...user,
+						qualificationMatches: qualificationMatches
+							.map((item) =>
+								objectToArray({ object: item }).join(",")
+							)
+							.join(","),
+					})
+				);
 				setImage(
 					await qrcode.toDataURL(
-						JSON.stringify({ id: id, ...user }),
+						JSON.stringify({
+							id: id,
+							...user,
+							qualificationMatches: qualificationMatches
+								.map((item) =>
+									objectToArray({ object: item }).join(",")
+								)
+								.join(","),
+						}),
 						{ width: 1000, height: 1000 }
 					)
 				);

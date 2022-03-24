@@ -17,6 +17,7 @@ class Database {
         });
         matches.createIndex("team", "team");
         matches.createIndex("user", "user");
+        matches.createIndex("number", "number");
         const answers = db.createObjectStore("answers", {
             autoIncrement: true,
         });
@@ -34,6 +35,58 @@ class Database {
             autoIncrement: true,
         });
         waitingMatches.createIndex("match", "match");
+        const qualificationMatches = db.createObjectStore(
+            "qualification_matches", {
+                autoIncrement: true,
+            }
+        );
+        qualificationMatches.createIndex("number", "number");
+    };
+    static QualificationMatches = class QualificationMatches {
+        static insert = async({ db, number, redTeams, blueTeams }) => {
+            const txn = db.transaction("qualification_matches", "readwrite");
+            const qualificationMatches = txn.objectStore(
+                "qualification_matches"
+            );
+            return await qualificationMatches.add({
+                number,
+                red: redTeams,
+                blue: blueTeams,
+            });
+        };
+        static clear = async({ db }) => {
+            const txn = db.transaction("qualification_matches", "readwrite");
+            const qualificationMatches = txn.objectStore(
+                "qualification_matches"
+            );
+            await qualificationMatches.clear();
+        };
+        static all = async({ db }) => {
+            const txn = db.transaction("qualification_matches", "readonly");
+            const objectStore = txn.objectStore("qualification_matches");
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static getById = async({ db, id }) => {
+            const txn = db.transaction("qualification_matches", "readwrite");
+            const qualificationMatches = txn.objectStore(
+                "qualification_matches"
+            );
+            return await qualificationMatches.get(id);
+        };
+        static getByNumber = async({ db, number }) => {
+            const txn = db.transaction("qualification_matches", "readwrite");
+            const qualificationMatches = txn.objectStore(
+                "qualification_matches"
+            );
+            const index = qualificationMatches.index("number");
+            return {
+                id: await index.getKey(number),
+                ...(await index.get(number)),
+            };
+        };
     };
     static WaitingMatches = class WaitingMatches {
         static insert = async({ db, match_id }) => {
@@ -60,6 +113,11 @@ class Database {
                 return { id: keys[index], ...item };
             });
         };
+        static clear = async({ db }) => {
+            const txn = db.transaction("waiting_matches", "readwrite");
+            const waiting_matches = txn.objectStore("waiting_matches");
+            await waiting_matches.clear();
+        };
     };
     static Matches = class Matches {
         static all = async({ db }) => {
@@ -76,6 +134,15 @@ class Database {
             const index = objectStore.index("team");
             const keys = await index.getAllKeys(team_id);
             return (await index.getAll(team_id)).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static getByNumber = async({ db, number }) => {
+            const txn = db.transaction("matches", "readonly");
+            const objectStore = txn.objectStore("matches");
+            const index = objectStore.index("number");
+            const keys = await index.getAllKeys(number);
+            return (await index.getAll(number)).map((item, index) => {
                 return { id: keys[index], ...item };
             });
         };
@@ -254,6 +321,11 @@ class Database {
                 return;
             }
         };
+        static clear = async({ db }) => {
+            const txn = db.transaction("answers", "readwrite");
+            const answers = txn.objectStore("answers");
+            await answers.clear();
+        };
     };
     static insertAnswer = async({ db, content, property_id, match_id }) => {
         const txn = db.transaction("answers", "readwrite");
@@ -282,17 +354,18 @@ class Database {
     static insertTeam = async({ db, number, name }) => {
         const txn = db.transaction("teams", "readwrite");
         const teams = txn.objectStore("teams");
-        await teams.add({
+        return await teams.add({
             number,
             name,
         });
     };
-    static insertMatch = async({ db, team_id, user_id }) => {
+    static insertMatch = async({ db, number, team_id, user_id }) => {
         const txn = db.transaction("matches", "readwrite");
         const matches = txn.objectStore("matches");
         return await matches.add({
             team: team_id,
             user: user_id,
+            number,
         });
     };
 }
