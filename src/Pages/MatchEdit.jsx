@@ -34,19 +34,18 @@ const MatchEdit = ({ database }) => {
 	}, [database]);
 	const handleDelete = async () => {
 		const isAccepted = window.confirm(
-			`Are you sure you want to delete match #${match.id}?`
+			`Are you sure you want to delete match #${match.number}?`
 		);
 		if (!isAccepted) return;
 		try {
 			await Database.WaitingMatches.deleteByMatch({
 				db: database,
-				match_id: match.id,
+				match_id: matchId,
 			});
 		} catch (error) {}
-
 		await Database.Matches.delete({
 			db: database,
-			id: match.id,
+			id: matchId,
 		});
 		navigate(`/teams/${teamId}/scout`);
 	};

@@ -21,7 +21,10 @@ const Header = () => {
 					<div className="items">
 						<HeaderItem url="/" title="Home"></HeaderItem>
 						<HeaderItem url="/scout" title="Scout"></HeaderItem>
-						<HeaderItem url="/matches" title="Matches"></HeaderItem>
+						<HeaderItem
+							url="/qualification_matches"
+							title="Matches"
+						></HeaderItem>
 						<HeaderItem url="/admin" title="Admin"></HeaderItem>
 						<HeaderItem url="/update" title="Update"></HeaderItem>
 					</div>

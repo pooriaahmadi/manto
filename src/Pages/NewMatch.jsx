@@ -66,4 +66,4 @@ const NewMatch = ({ database }) => {
 	);
 };
 
-export default NewTeam;
+export default NewMatch;

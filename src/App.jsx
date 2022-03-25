@@ -23,6 +23,8 @@ import Scout from "./Pages/Scout";
 import TeamScout from "./Components/Teams/TeamScout";
 import Home from "./Pages/Home";
 import MatchEdit from "./Pages/MatchEdit";
+import NewMatch from "./Pages/NewMatch";
+import QualificationMatches from "./Pages/QualificationMatches";
 
 const App = () => {
 	const [database, setDatabase] = useState();
@@ -43,7 +45,7 @@ const App = () => {
 	};
 	useEffect(() => {
 		const stuff = async () => {
-			const db = await idb.openDB("manto", 6, {
+			const db = await idb.openDB("manto", 7, {
 				async upgrade(db, oldVersion, newVersion, transaction) {
 					const objectStores = [
 						"users",
@@ -116,6 +118,10 @@ const App = () => {
 						element={<TeamScout database={database}></TeamScout>}
 					/>
 					<Route
+						path="/teams/:teamId/matches/new"
+						element={<NewMatch database={database} />}
+					/>
+					<Route
 						path="/teams/:teamId/matches/:matchId/edit"
 						element={<MatchEdit database={database} />}
 					/>
@@ -163,6 +169,10 @@ const App = () => {
 						element={<NewProperty database={database} />}
 					/>
 					<Route path="/update" element={<ReloadPageElement />} />
+					<Route
+						path="/qualification_matches"
+						element={<QualificationMatches database={database} />}
+					/>
 				</Routes>
 			</BrowserRouter>
 		</div>

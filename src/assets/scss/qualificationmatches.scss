@@ -1,0 +1,35 @@
+.qualification-matches {
+    margin: 0 20px;
+    .teams-inline {
+        .bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .left,
+            .right {
+                width: 49%;
+                >div {
+                    cursor: pointer;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: white;
+                    border-radius: 8px;
+                    padding: 10px 15px;
+                    margin-bottom: 10px;
+                }
+            }
+            >.left {
+                div {
+                    background-color: crimson;
+                }
+            }
+            >.right {
+                div {
+                    background-color: #007AFF;
+                }
+            }
+        }
+    }
+}

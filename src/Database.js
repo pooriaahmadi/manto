@@ -17,7 +17,9 @@ class Database {
         });
         matches.createIndex("team", "team");
         matches.createIndex("user", "user");
-        matches.createIndex("number", "number");
+        matches.createIndex("number", "number", {
+            unique: true,
+        });
         const answers = db.createObjectStore("answers", {
             autoIncrement: true,
         });

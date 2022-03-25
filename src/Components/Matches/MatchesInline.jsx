@@ -51,9 +51,9 @@ const MatchesInline = ({ database, team_id }) => {
 					>
 						Load
 					</Link>
-					<button className="new" onClick={newMatch}>
+					<Link className="new" to={`/teams/${team_id}/matches/new`}>
 						New
-					</button>
+					</Link>
 				</div>
 			</div>
 			<div className="bottom">
