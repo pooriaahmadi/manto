@@ -24,17 +24,6 @@ const UserQRCode = ({ database }) => {
 				setUser(user);
 				const qualificationMatches =
 					await Database.QualificationMatches.all({ db: database });
-				console.log(
-					JSON.stringify({
-						id: id,
-						...user,
-						qualificationMatches: qualificationMatches
-							.map((item) =>
-								objectToArray({ object: item }).join(",")
-							)
-							.join(","),
-					})
-				);
 				setImage(
 					await qrcode.toDataURL(
 						JSON.stringify({

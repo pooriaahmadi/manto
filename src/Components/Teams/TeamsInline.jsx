@@ -66,20 +66,10 @@ const TeamsInline = ({ database, scout = false }) => {
 				db: database,
 				number: qualificationMatch.match_number,
 				blueTeams: qualificationMatch.alliances.blue.team_keys.map(
-					(item) =>
-						teams.filter(
-							(team) =>
-								team.number ===
-								parseInt(item.replace("frc", ""))
-						)[0].id
+					(item) => parseInt(item.replace("frc", ""))
 				),
 				redTeams: qualificationMatch.alliances.red.team_keys.map(
-					(item) =>
-						teams.filter(
-							(team) =>
-								team.number ===
-								parseInt(item.replace("frc", ""))
-						)[0].id
+					(item) => parseInt(item.replace("frc", ""))
 				),
 			});
 		}
