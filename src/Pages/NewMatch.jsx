@@ -25,6 +25,10 @@ const NewMatch = ({ database }) => {
 				team_id: teamId,
 				user_id: parseInt(localStorage.getItem("user")),
 			});
+			await Database.WaitingMatches.insert({
+				db: database,
+				match_id: match,
+			});
 		} catch (error) {
 			setError("Number is already in use");
 			return;
@@ -51,7 +55,7 @@ const NewMatch = ({ database }) => {
 						(error.toLowerCase().includes("number") ? " error" : "")
 					}
 				>
-					<h2>Team number</h2>
+					<h2>Match number</h2>
 					<input
 						type="number"
 						value={number == 0 ? "" : number}

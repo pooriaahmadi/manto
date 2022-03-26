@@ -17,9 +17,7 @@ class Database {
         });
         matches.createIndex("team", "team");
         matches.createIndex("user", "user");
-        matches.createIndex("number", "number", {
-            unique: true,
-        });
+        matches.createIndex("number", "number");
         const answers = db.createObjectStore("answers", {
             autoIncrement: true,
         });
@@ -315,13 +313,21 @@ class Database {
             const answers = txn.objectStore("answers");
             const index = answers.index("proeprty");
             try {
+                const id = await index.getKey(property_id);
+                if (!id) return;
                 return {
                     ...(await index.get(property_id)),
-                    id: await index.getKey(property_id),
+                    id: id,
                 };
             } catch (error) {
                 return;
             }
+        };
+        static update = async({ db, id, data }) => {
+            const txn = db.transaction("answers", "readwrite");
+            const answers = txn.objectStore("answers");
+            const answer = await answers.get(id);
+            await answers.put({...answer, ...data }, id);
         };
         static clear = async({ db }) => {
             const txn = db.transaction("answers", "readwrite");
@@ -332,7 +338,7 @@ class Database {
     static insertAnswer = async({ db, content, property_id, match_id }) => {
         const txn = db.transaction("answers", "readwrite");
         const answers = txn.objectStore("answers");
-        await answers.add({
+        return await answers.add({
             content: content,
             property: property_id,
             match: match_id,

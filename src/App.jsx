@@ -35,6 +35,11 @@ const App = () => {
 		setWaitingWorker(registration.waiting);
 	};
 	const reloadPage = () => {
+		if (!showReload) return;
+		const isOk = window.confirm("New version is available, wanna update?");
+		if (!isOk) {
+			return;
+		}
 		waitingWorker?.postMessage({ type: "SKIP_WAITING" });
 		setShowReload(false);
 		window.location.reload(true);
@@ -45,7 +50,7 @@ const App = () => {
 	};
 	useEffect(() => {
 		const stuff = async () => {
-			const db = await idb.openDB("manto", 7, {
+			const db = await idb.openDB("manto", 8, {
 				async upgrade(db, oldVersion, newVersion, transaction) {
 					const objectStores = [
 						"users",
@@ -73,13 +78,8 @@ const App = () => {
 	return (
 		<div className="app">
 			<BrowserRouter>
-				<Header></Header>
-				{showReload && (
-					<h1>
-						new version is available
-						<button onClick={reloadPage}>reload</button>
-					</h1>
-				)}
+				<Header database={database} />
+				{reloadPage()}
 				<Routes>
 					<Route path="/" element={<Home database={database} />} />
 					<Route

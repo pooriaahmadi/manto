@@ -110,6 +110,7 @@ const CategoriesLoad = ({ database, redirect = "/admin" }) => {
 		<div className="load">
 			{result === "" ? (
 				<div className="scanner">
+					<h1>Categories Load</h1>
 					<div className="controls">
 						<input
 							type="file"

@@ -13,6 +13,7 @@ const QualificationMatches = ({ database }) => {
 					db: database,
 				});
 				const teams = await Database.Teams.all({ db: database });
+				if (!teams.length) return navigate("/teams/qrcode/load/scout");
 				setMatches(
 					matches
 						.map((item) => {

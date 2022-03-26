@@ -51,9 +51,9 @@ const MatchesInline = ({ database, team_id }) => {
 					>
 						Load
 					</Link>
-					<Link className="new" to={`/teams/${team_id}/matches/new`}>
+					{/* <Link className="new" to={`/teams/${team_id}/matches/new`}>
 						New
-					</Link>
+					</Link> */}
 				</div>
 			</div>
 			<div className="bottom">

@@ -1,0 +1,68 @@
+.categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    .category {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        >h2 {
+            margin-bottom: 15px;
+        }
+        .properties {
+            .property {
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                padding: 10px;
+                margin-bottom: 15px;
+                border-radius: 10px;
+                display: flex;
+                justify-content: space-between;
+                .left {
+                    display: flex;
+                    align-items: center;
+                }
+                .right {
+                    .number {
+                        display: flex;
+                        border-radius: 8px;
+                        border: rgba(0, 0, 0, 0.24) 1px solid;
+                        padding: 0 5px;
+                        img {
+                            cursor: pointer;
+                        }
+                        input {
+                            -moz-appearance: textfield;
+                            &::-webkit-inner-spin-button {
+                                -webkit-appearance: none;
+                            }
+                            width: 90px;
+                            text-align: center;
+                            border: none;
+                        }
+                    }
+                    input,
+                    select {
+                        transition: 0.5s;
+                        width: 100%;
+                        outline: none;
+                        padding: 5px 10px;
+                        font-size: 17px;
+                        border-radius: 8px;
+                        border: rgba(0, 0, 0, 0.24) 1px solid;
+                        &[type="checkbox"] {
+                            width: unset;
+                        }
+                        &[type="submit"] {
+                            background-color: #007AFF;
+                            color: white;
+                            font-size: 20px;
+                            font-weight: bolder !important;
+                            padding: 10px 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

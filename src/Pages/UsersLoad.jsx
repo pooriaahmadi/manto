@@ -46,33 +46,7 @@ const UsersLoad = ({ database }) => {
 				name: item[2],
 			};
 		});
-		const qualificationMatchesSchema = [
-			"number",
-			"red1",
-			"red2",
-			"red3",
-			"blue1",
-			"blue2",
-			"blue3",
-		];
-		let qualificationMatches = chunkArrayInGroups(
-			result.split(","),
-			qualificationMatchesSchema.length
-		).map((item) => {
-			return {
-				number: parseInt(item[0]),
-				redTeams: [
-					parseInt(item[1]),
-					parseInt(item[2]),
-					parseInt(item[3]),
-				],
-				blueTeams: [
-					parseInt(item[4]),
-					parseInt(item[5]),
-					parseInt(item[6]),
-				],
-			};
-		});
+
 		if (method === 0) {
 			await Database.Users.clear({ db: database });
 		} else if (method === 1) {
@@ -93,20 +67,7 @@ const UsersLoad = ({ database }) => {
 				console.error(error);
 			}
 		}
-		await Database.QualificationMatches.clear({ db: database });
-		for (let i = 0; i < qualificationMatches.length; i++) {
-			const qualificationMatch = qualificationMatches[i];
-			try {
-				await Database.QualificationMatches.insert({
-					db: database,
-					blueTeams: qualificationMatch.blueTeams,
-					redTeams: qualificationMatch.redTeams,
-					number: qualificationMatch.number,
-				});
-			} catch (error) {
-				console.error(error);
-			}
-		}
+
 		navigate("/admin");
 	};
 	const handleError = (err) => {
@@ -116,6 +77,7 @@ const UsersLoad = ({ database }) => {
 		<div className="load">
 			{result === "" ? (
 				<div className="scanner">
+					<h1>Users Load</h1>
 					<div className="controls">
 						<input
 							type="file"

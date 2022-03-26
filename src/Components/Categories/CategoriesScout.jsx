@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import CategoryScout from "./CategoryScout";
 import Database from "../../Database";
+import "../../assets/scss/categoriesscout.scss";
 const CategoriesScout = ({ database, matchId }) => {
 	const [categories, setCategories] = useState([]);
 	useEffect(() => {

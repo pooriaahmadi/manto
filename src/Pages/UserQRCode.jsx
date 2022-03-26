@@ -22,8 +22,12 @@ const UserQRCode = ({ database }) => {
 					id: id,
 				});
 				setUser(user);
-				const qualificationMatches =
-					await Database.QualificationMatches.all({ db: database });
+				const qualificationMatches = (
+					await Database.QualificationMatches.all({ db: database })
+				).map((item) => {
+					delete item.id;
+					return item;
+				});
 				setImage(
 					await qrcode.toDataURL(
 						JSON.stringify({

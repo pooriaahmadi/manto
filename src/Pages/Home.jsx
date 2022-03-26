@@ -4,7 +4,13 @@ import { QrReader } from "react-qr-reader";
 import Database from "../Database";
 import { useEffect } from "react";
 import { useState } from "react";
-
+const chunkArrayInGroups = (arr, size) => {
+	var myArray = [];
+	for (var i = 0; i < arr.length; i += size) {
+		myArray.push(arr.slice(i, i + size));
+	}
+	return myArray;
+};
 const Home = ({ database }) => {
 	const navigate = useNavigate();
 	const [isOk, setIsOk] = useState(false);
@@ -46,6 +52,47 @@ const Home = ({ database }) => {
 	};
 	const handleOnResult = async (result) => {
 		result = JSON.parse(result);
+		const qualificationMatchesSchema = [
+			"number",
+			"red1",
+			"red2",
+			"red3",
+			"blue1",
+			"blue2",
+			"blue3",
+		];
+		let qualificationMatches = chunkArrayInGroups(
+			result.qualificationMatches.split(","),
+			qualificationMatchesSchema.length
+		).map((item) => {
+			return {
+				number: parseInt(item[0]),
+				redTeams: [
+					parseInt(item[1]),
+					parseInt(item[2]),
+					parseInt(item[3]),
+				],
+				blueTeams: [
+					parseInt(item[4]),
+					parseInt(item[5]),
+					parseInt(item[6]),
+				],
+			};
+		});
+		await Database.QualificationMatches.clear({ db: database });
+		for (let i = 0; i < qualificationMatches.length; i++) {
+			const qualificationMatch = qualificationMatches[i];
+			try {
+				await Database.QualificationMatches.insert({
+					db: database,
+					blueTeams: qualificationMatch.blueTeams,
+					redTeams: qualificationMatch.redTeams,
+					number: qualificationMatch.number,
+				});
+			} catch (error) {
+				console.error(error);
+			}
+		}
 		try {
 			result = await Database.insertUser({
 				db: database,

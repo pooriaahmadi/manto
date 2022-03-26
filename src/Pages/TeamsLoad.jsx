@@ -75,6 +75,7 @@ const TeamsLoad = ({ database, redirect = "/admin" }) => {
 		<div className="load">
 			{result === "" ? (
 				<div className="scanner">
+					<h1>Teams load</h1>
 					<div className="controls">
 						<input
 							type="file"

@@ -1,8 +1,9 @@
 import HeaderItem from "./HeaderItem";
 import close from "../../assets/images/close.png";
 import "../../assets/scss/menu.scss";
+import { Link } from "react-router-dom";
 
-const Menu = ({ active, toggleActive }) => {
+const Menu = ({ active, toggleActive, waitingNumber }) => {
 	return (
 		<div className={`menu` + (active ? " active" : "")}>
 			<div className="top">
@@ -15,6 +16,12 @@ const Menu = ({ active, toggleActive }) => {
 					url="/qualification_matches"
 					title="Matches"
 				></HeaderItem>
+				<Link className="item queue" to="/queue">
+					<div>
+						Queue
+						{waitingNumber !== 0 && <span>{waitingNumber}</span>}
+					</div>
+				</Link>
 				<HeaderItem url="/admin" title="Admin" />
 				<HeaderItem url="/update" title="Update" />
 			</div>
