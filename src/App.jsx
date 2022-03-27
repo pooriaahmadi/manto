@@ -25,11 +25,14 @@ import Home from "./Pages/Home";
 import MatchEdit from "./Pages/MatchEdit";
 import NewMatch from "./Pages/NewMatch";
 import QualificationMatches from "./Pages/QualificationMatches";
+import QueuePage from "./Pages/QueuePage";
+import QueueQRCode from "./Pages/QueueQRCode";
 
 const App = () => {
 	const [database, setDatabase] = useState();
 	const [showReload, setShowReload] = useState(false);
 	const [waitingWorker, setWaitingWorker] = useState(null);
+	const [queue, setQueue] = useState(0);
 	const onSWUpdate = (registration) => {
 		setShowReload(true);
 		setWaitingWorker(registration.waiting);
@@ -70,15 +73,25 @@ const App = () => {
 					await Database.first_time(db);
 				},
 			});
+			const waitingMatches = await Database.WaitingMatches.all({
+				db: db,
+			});
+			setQueue(waitingMatches.length);
 			setDatabase(db);
 		};
 		serviceWorkerRegistration.register({ onUpdate: onSWUpdate });
 		stuff();
 	}, []);
+	const increaseQueue = () => {
+		setQueue(queue + 1);
+	};
+	const decreaseQueue = () => {
+		setQueue(queue - 1);
+	};
 	return (
 		<div className="app">
 			<BrowserRouter>
-				<Header database={database} />
+				<Header queue={queue} />
 				{reloadPage()}
 				<Routes>
 					<Route path="/" element={<Home database={database} />} />
@@ -115,15 +128,31 @@ const App = () => {
 					/>
 					<Route
 						path="/teams/:id/scout"
-						element={<TeamScout database={database}></TeamScout>}
+						element={
+							<TeamScout
+								database={database}
+								increaseQueue={increaseQueue}
+								decreaseQueue={decreaseQueue}
+							></TeamScout>
+						}
 					/>
 					<Route
 						path="/teams/:teamId/matches/new"
-						element={<NewMatch database={database} />}
+						element={
+							<NewMatch
+								database={database}
+								increaseQueue={increaseQueue}
+							/>
+						}
 					/>
 					<Route
 						path="/teams/:teamId/matches/:matchId/edit"
-						element={<MatchEdit database={database} />}
+						element={
+							<MatchEdit
+								database={database}
+								decreaseQueue={decreaseQueue}
+							/>
+						}
 					/>
 					<Route
 						path="/users/new"
@@ -171,7 +200,30 @@ const App = () => {
 					<Route path="/update" element={<ReloadPageElement />} />
 					<Route
 						path="/qualification_matches"
-						element={<QualificationMatches database={database} />}
+						element={
+							<QualificationMatches
+								database={database}
+								increaseQueue={increaseQueue}
+							/>
+						}
+					/>
+					<Route
+						path="/queue"
+						element={
+							<QueuePage
+								database={database}
+								decreaseQueue={decreaseQueue}
+							/>
+						}
+					/>
+					<Route
+						path="/queue/qrcode"
+						element={
+							<QueueQRCode
+								database={database}
+								decreaseQueue={decreaseQueue}
+							/>
+						}
 					/>
 				</Routes>
 			</BrowserRouter>

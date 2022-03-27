@@ -323,6 +323,36 @@ class Database {
                 return;
             }
         };
+        static getByMatch = async({ db, match_id }) => {
+            const txn = db.transaction("answers", "readwrite");
+            const answers = txn.objectStore("answers");
+            const index = answers.index("match");
+            const keys = await index.getAllKeys(match_id);
+            return (await index.getAll(match_id)).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+
+        static getByMatchAndProperty = async({
+            db,
+            property_id,
+            match_id,
+        }) => {
+            let answers = await Database.Answers.all({ db });
+            answers = answers.filter(
+                (item) =>
+                item.property === property_id && item.match === match_id
+            );
+            return answers.length ? answers[0] : undefined;
+        };
+        static all = async({ db }) => {
+            const txn = db.transaction("answers", "readonly");
+            const objectStore = txn.objectStore("answers");
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
         static update = async({ db, id, data }) => {
             const txn = db.transaction("answers", "readwrite");
             const answers = txn.objectStore("answers");

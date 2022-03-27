@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Database from "../Database";
 import "../assets/scss/qualificationmatches.scss";
 
-const QualificationMatches = ({ database }) => {
+const QualificationMatches = ({ database, increaseQueue }) => {
 	const [matches, setMatches] = useState([]);
 	const navigate = useNavigate();
 	useEffect(() => {
@@ -59,6 +59,7 @@ const QualificationMatches = ({ database }) => {
 				db: database,
 				match_id: match,
 			});
+			increaseQueue();
 			navigate(`/teams/${teamId}/matches/${match}/edit`);
 		} else {
 			const match = matches[0].id;

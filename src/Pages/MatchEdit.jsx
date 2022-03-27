@@ -5,7 +5,7 @@ import CategoriesScout from "../Components/Categories/CategoriesScout";
 import Database from "../Database";
 import "../assets/scss/matchedit.scss";
 
-const MatchEdit = ({ database }) => {
+const MatchEdit = ({ database, decreaseQueue }) => {
 	let { teamId, matchId } = useParams();
 	const [team, setTeam] = useState(null);
 	const [match, setMatch] = useState(null);
@@ -47,6 +47,7 @@ const MatchEdit = ({ database }) => {
 			db: database,
 			id: matchId,
 		});
+		decreaseQueue();
 		navigate(`/teams/${teamId}/scout`);
 	};
 	return (

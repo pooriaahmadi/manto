@@ -3,23 +3,10 @@ import logo from "../../assets/images/logo.png";
 import "../../assets/scss/header.scss";
 import Menu from "./Menu";
 import hamMenu from "../../assets/images/menu.png";
-import { useEffect, useState } from "react";
-import Database from "../../Database";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-const Header = ({ database }) => {
+const Header = ({ queue }) => {
 	const [active, setActive] = useState(false);
-	const [waitingNumber, setWaitingNumber] = useState(0);
-	useEffect(() => {
-		const stuff = async () => {
-			try {
-				const waitingMatches = await Database.WaitingMatches.all({
-					db: database,
-				});
-				setWaitingNumber(waitingMatches.length);
-			} catch (error) {}
-		};
-		stuff();
-	}, [database]);
 	const toggleActive = () => {
 		if (active) {
 			setActive(false);
@@ -42,9 +29,7 @@ const Header = ({ database }) => {
 						<Link className="item queue" to="/queue">
 							<div>
 								Queue
-								{waitingNumber !== 0 && (
-									<span>{waitingNumber}</span>
-								)}
+								{queue !== 0 && <span>{queue}</span>}
 							</div>
 						</Link>
 						<HeaderItem url="/admin" title="Admin"></HeaderItem>
@@ -59,7 +44,7 @@ const Header = ({ database }) => {
 			<Menu
 				active={active}
 				toggleActive={toggleActive}
-				waitingNumber={waitingNumber}
+				queue={queue}
 			></Menu>
 		</>
 	);

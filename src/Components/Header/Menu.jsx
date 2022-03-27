@@ -3,7 +3,7 @@ import close from "../../assets/images/close.png";
 import "../../assets/scss/menu.scss";
 import { Link } from "react-router-dom";
 
-const Menu = ({ active, toggleActive, waitingNumber }) => {
+const Menu = ({ active, toggleActive, queue }) => {
 	return (
 		<div className={`menu` + (active ? " active" : "")}>
 			<div className="top">
@@ -19,7 +19,7 @@ const Menu = ({ active, toggleActive, waitingNumber }) => {
 				<Link className="item queue" to="/queue">
 					<div>
 						Queue
-						{waitingNumber !== 0 && <span>{waitingNumber}</span>}
+						{queue !== 0 && <span>{queue}</span>}
 					</div>
 				</Link>
 				<HeaderItem url="/admin" title="Admin" />

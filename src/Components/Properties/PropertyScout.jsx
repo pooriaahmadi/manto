@@ -9,9 +9,10 @@ const PropertyScout = ({ database, matchId, id, title, type }) => {
 	const defaultValues = ["default text", 0, false, 0];
 	useEffect(() => {
 		const stuff = async () => {
-			const answer = await Database.Answers.getByProperty({
+			const answer = await Database.Answers.getByMatchAndProperty({
 				db: database,
 				property_id: id,
+				match_id: matchId,
 			});
 			if (!answer) {
 				const answer = await Database.insertAnswer({

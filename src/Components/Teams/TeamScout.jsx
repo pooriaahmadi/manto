@@ -4,7 +4,7 @@ import MatchesInline from "../Matches/MatchesInline";
 import Database from "../../Database";
 import "../../assets/scss/teamscout.scss";
 
-const TeamScout = ({ database }) => {
+const TeamScout = ({ database, increaseQueue, decreaseQueue }) => {
 	const [team, setTeam] = useState(null);
 	let { id } = useParams();
 	id = parseInt(id);
@@ -32,7 +32,12 @@ const TeamScout = ({ database }) => {
 				</div>
 				<h1>{team.name}</h1>
 			</div>
-			<MatchesInline database={database} team_id={id} />
+			<MatchesInline
+				increaseQueue={increaseQueue}
+				decreaseQueue={decreaseQueue}
+				database={database}
+				team_id={id}
+			/>
 		</div>
 	);
 };

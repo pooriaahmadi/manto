@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../assets/scss/inputs.scss";
 import "../assets/scss/newteam.scss";
 
-const NewMatch = ({ database }) => {
+const NewMatch = ({ database, increaseQueue }) => {
 	let { teamId } = useParams();
 	teamId = parseInt(teamId);
 	const [number, setNumber] = useState(null);
@@ -29,6 +29,7 @@ const NewMatch = ({ database }) => {
 				db: database,
 				match_id: match,
 			});
+			increaseQueue();
 		} catch (error) {
 			setError("Number is already in use");
 			return;

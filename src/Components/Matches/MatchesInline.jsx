@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Database from "../../Database";
 import MatcheInline from "./MatchInline";
 import "../../assets/scss/teamsinline.scss";
-const MatchesInline = ({ database, team_id }) => {
+const MatchesInline = ({ database, team_id, increaseQueue, decreaseQueue }) => {
 	const [matches, setMatches] = useState([]);
 	const navigate = useNavigate();
 	useEffect(() => {
@@ -31,6 +31,7 @@ const MatchesInline = ({ database, team_id }) => {
 			db: database,
 			match_id: match,
 		});
+		increaseQueue();
 		setMatches([...matches, { id: match, team: team_id, user: user_id }]);
 		navigate(`/teams/${team_id}/matches/${match}/edit`);
 	};
@@ -71,6 +72,7 @@ const MatchesInline = ({ database, team_id }) => {
 							db: database,
 							id: item.id,
 						});
+						decreaseQueue();
 						setMatches(
 							matches.filter((newItem) => newItem !== item)
 						);
