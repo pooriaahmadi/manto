@@ -27,6 +27,7 @@ import NewMatch from "./Pages/NewMatch";
 import QualificationMatches from "./Pages/QualificationMatches";
 import QueuePage from "./Pages/QueuePage";
 import QueueQRCode from "./Pages/QueueQRCode";
+import QueueLoad from "./Pages/QueueLoad";
 
 const App = () => {
 	const [database, setDatabase] = useState();
@@ -53,7 +54,7 @@ const App = () => {
 	};
 	useEffect(() => {
 		const stuff = async () => {
-			const db = await idb.openDB("manto", 8, {
+			const db = await idb.openDB("manto", 9, {
 				async upgrade(db, oldVersion, newVersion, transaction) {
 					const objectStores = [
 						"users",
@@ -224,6 +225,10 @@ const App = () => {
 								decreaseQueue={decreaseQueue}
 							/>
 						}
+					/>
+					<Route
+						path="/queue/load"
+						element={<QueueLoad database={database} />}
 					/>
 				</Routes>
 			</BrowserRouter>
