@@ -35,34 +35,55 @@ const QueueQRCode = ({ database, decreaseQueue }) => {
 						return item;
 					})
 				);
-				const matches = (
-					await Database.Matches.all({ db: database })
-				).filter((item) => ids.filter((id) => item.id === id).length);
-				const categories = await Database.Categories.all({
-					db: database,
+				const teams = await Database.Teams.all({ db: database });
+				const matches = (await Database.Matches.all({ db: database }))
+					.filter((item) => ids.filter((id) => item.id === id).length)
+					.map((item) => {
+						delete item.user;
+						return {
+							...item,
+							team: teams.filter(
+								(team) => team.id === item.team
+							)[0].number,
+						};
+					});
+				const properties = (
+					await Database.Properties.all({
+						db: database,
+					})
+				).map((item) => {
+					delete item.type;
+					delete item.category;
+					return item;
 				});
-				const properties = await Database.Properties.all({
+
+				const user = await Database.Users.getById({
 					db: database,
+					id: parseInt(localStorage.getItem("user")),
 				});
 				setImage(
 					await qrcode.toDataURL(
 						JSON.stringify({
-							categories: categories
-								.map((item) =>
-									objectToArray({ object: item }).join(",")
-								)
-								.join(","),
 							properties: properties
 								.map((item) =>
 									objectToArray({ object: item }).join(",")
 								)
 								.join(","),
-							matches: matches.map((item) =>
-								objectToArray({ object: item }).join(",")
-							),
-							answers: answers.map((item) =>
-								objectToArray({ object: item }).join(",")
-							),
+							matches: matches
+								.map((item) =>
+									objectToArray({ object: item }).join(",")
+								)
+								.join(","),
+							answers: answers
+								.map((item) =>
+									item.map((item) =>
+										objectToArray({ object: item }).join(
+											","
+										)
+									)
+								)
+								.join(","),
+							user: user.username,
 						}),
 						{ width: 1000, height: 1000 }
 					)
