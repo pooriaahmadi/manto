@@ -11,9 +11,13 @@
         padding-right: 20px;
         >.controls {
             display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
             >.new,
             .qrcode,
             button {
+                margin-bottom: 10px;
                 text-decoration: none;
                 color: white;
                 background-color: limegreen;

@@ -25,6 +25,7 @@
     }
     .teams-inline {
         .top {
+            flex-direction: column;
             h1 {
                 font-size: 25px;
             }

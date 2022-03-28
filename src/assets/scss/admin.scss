@@ -3,7 +3,25 @@
     padding: 0 20px;
     .teams {
         width: 100%;
-        .teams-inline {
+        .actions {
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            padding: 20px;
+            border-radius: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            .action {
+                text-decoration: none;
+                color: white;
+                background-color: #007AFF;
+                padding: 10px;
+                border-radius: 10px;
+                text-align: center;
+                font-weight: bold;
+            }
+        }
+        .teams-inline,
+        .actions {
             width: 100%;
             margin-bottom: 20px;
         }
