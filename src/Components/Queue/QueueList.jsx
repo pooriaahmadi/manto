@@ -15,14 +15,14 @@ const QueueList = ({ database, decreaseQueue }) => {
 				let matches = await Database.Matches.all({ db: database });
 				matches = matches.filter(
 					(item) =>
-						queue.filter((waiting) => item.id === waiting.id).length
+						queue.filter((waiting) => item.id === waiting.match)
+							.length
 				);
 				setQueue(matches);
 			} catch (error) {}
 		};
 		stuff();
 	}, [database]);
-	// TODO: umm qrcode fix
 	return (
 		<div className="teams-inline">
 			<div className="top">
