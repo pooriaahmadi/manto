@@ -66,11 +66,19 @@ const QualificationMatches = ({ database, increaseQueue }) => {
 			navigate(`/teams/${teamId}/matches/${match}/edit`);
 		}
 	};
+	const handleOnLoad = () => {
+		localStorage.removeItem("user");
+		navigate("/");
+	};
 	return (
 		<div className="teams-inline qualification-matches">
 			<div className="top">
 				<h1>Matches</h1>
-				<div className="controls"></div>
+				<div className="controls">
+					<button className="qrcode" onClick={handleOnLoad}>
+						Load
+					</button>
+				</div>
 			</div>
 			<div className="bottom">
 				{matches.map((match) => {
