@@ -23,13 +23,19 @@ class Database {
         });
         answers.createIndex("proeprty", "property");
         answers.createIndex("match", "match");
-        db.createObjectStore("categories", {
+        const categories = db.createObjectStore("categories", {
             autoIncrement: true,
+        });
+        categories.createIndex("title", "title", {
+            unique: true,
         });
         const properties = db.createObjectStore("properties", {
             autoIncrement: true,
         });
         properties.createIndex("category", "category");
+        properties.createIndex("title", "title", {
+            unique: true,
+        });
 
         const waitingMatches = db.createObjectStore("waiting_matches", {
             autoIncrement: true,
@@ -40,7 +46,9 @@ class Database {
                 autoIncrement: true,
             }
         );
-        qualificationMatches.createIndex("number", "number");
+        qualificationMatches.createIndex("number", "number", {
+            unique: true,
+        });
     };
     static QualificationMatches = class QualificationMatches {
         static insert = async({ db, number, redTeams, blueTeams }) => {
@@ -157,6 +165,11 @@ class Database {
             const txn = db.transaction("matches", "readwrite");
             const objectStore = txn.objectStore("matches");
             await objectStore.delete(id);
+        };
+        static clear = async({ db }) => {
+            const txn = db.transaction("matches", "readwrite");
+            const matches = txn.objectStore("matches");
+            await matches.clear();
         };
     };
     static Categories = class Categories {
