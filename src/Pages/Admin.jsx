@@ -3,8 +3,217 @@ import UsersInline from "../Components/Users/UsersInline";
 import CategoriesInline from "../Components/Categories/CategoriesInline";
 import { Link } from "react-router-dom";
 import "../assets/scss/admin.scss";
+import Database from "../Database";
+const download = (filename, text) => {
+	const element = document.createElement("a");
+	element.setAttribute(
+		"href",
+		"data:text/plain;charset=utf-8," + encodeURIComponent(text)
+	);
+	element.setAttribute("download", filename);
 
+	element.style.display = "none";
+	document.body.appendChild(element);
+
+	element.click();
+
+	document.body.removeChild(element);
+};
 const Admin = ({ database }) => {
+	const backup = async () => {
+		const teams = await Database.Teams.all({ db: database });
+		const users = await Database.Users.all({ db: database });
+		const matches = await Database.Matches.all({ db: database });
+		const qualificationMatches = await Database.QualificationMatches.all({
+			db: database,
+		});
+		const categories = await Database.Categories.all({ db: database });
+		const properties = await Database.Properties.all({ db: database });
+		const answers = await Database.Answers.all({ db: database });
+		const output = [];
+		output.push(JSON.stringify(teams));
+		output.push(JSON.stringify(users));
+		output.push(JSON.stringify(matches));
+		output.push(JSON.stringify(qualificationMatches));
+		output.push(JSON.stringify(categories));
+		output.push(JSON.stringify(properties));
+		output.push(JSON.stringify(answers));
+
+		download(
+			`Backup ${new Date().toLocaleString()}`,
+			output.join("SPACER")
+		);
+	};
+	const restore = () => {
+		const fileElement = document.createElement("input");
+		const onChange = (e) => {
+			const file = e.target.files[0];
+			const reader = new FileReader();
+			reader.readAsText(file, "UTF-8");
+			reader.onload = async (e) => {
+				const result = e.target.result
+					.split("SPACER")
+					.map((item) => JSON.parse(item));
+				const isOk = window.confirm(
+					"This operation is irrecoverable, are you sure?"
+				);
+				if (!isOk) return;
+
+				const reset = window.confirm(
+					"Reset the database? if no please press cancel and the data will be pushed."
+				);
+				if (reset) {
+					await Database.Teams.clear({ db: database });
+					await Database.Answers.clear({ db: database });
+					await Database.Categories.clear({ db: database });
+					await Database.Matches.clear({ db: database });
+					await Database.Properties.clear({ db: database });
+					await Database.QualificationMatches.clear({ db: database });
+					await Database.Users.clear({ db: database });
+					await Database.WaitingMatches.clear({ db: database });
+				}
+				for (let i = 0; i < result[0].length; i++) {
+					const team = result[0][i];
+					try {
+						await Database.insertTeam({
+							db: database,
+							number: team.number,
+							name: team.name,
+						});
+					} catch (error) {}
+				}
+				const teams = await Database.Teams.all({ db: database });
+				for (let i = 0; i < result[1].length; i++) {
+					const user = result[1][i];
+					try {
+						await Database.insertUser({
+							db: database,
+							name: user.name,
+							username: user.username,
+						});
+					} catch (error) {}
+				}
+				const users = await Database.Users.all({ db: database });
+				for (let i = 0; i < result[2].length; i++) {
+					const match = result[2][i];
+					try {
+						await Database.insertMatch({
+							db: database,
+							number: match.number,
+							team_id: teams.filter(
+								(newTeam) =>
+									result[0].filter(
+										(oldTeam) => oldTeam.id === match.team
+									)[0].number === newTeam.number
+							)[0].id,
+							user_id: users.filter(
+								(newUser) =>
+									result[1].filter(
+										(oldUser) => oldUser.id === match.user
+									)[0].username === newUser.username
+							)[0].id,
+						});
+					} catch (error) {}
+				}
+				const matches = await Database.Matches.all({ db: database });
+
+				for (let i = 0; i < result[3].length; i++) {
+					const qualificationMatch = result[3][i];
+					try {
+						await Database.QualificationMatches.insert({
+							db: database,
+							number: qualificationMatch.number,
+							blueTeams: qualificationMatch.blue.map(
+								(blueTeam) =>
+									teams.filter(
+										(newTeam) =>
+											result[0].filter(
+												(oldTeam) =>
+													oldTeam.number === blueTeam
+											)[0].number === newTeam.number
+									)[0].number
+							),
+							redTeams: qualificationMatch.red.map(
+								(redTeam) =>
+									teams.filter(
+										(newTeam) =>
+											result[0].filter(
+												(oldTeam) =>
+													oldTeam.number === redTeam
+											)[0].number === newTeam.number
+									)[0].number
+							),
+						});
+					} catch (error) {
+						console.log(error);
+					}
+				}
+				for (let i = 0; i < result[4].length; i++) {
+					const category = result[4][i];
+					try {
+						await Database.insertCategory({
+							db: database,
+							title: category.title,
+						});
+					} catch (error) {}
+				}
+				const categories = await Database.Categories.all({
+					db: database,
+				});
+				for (let i = 0; i < result[5].length; i++) {
+					const property = result[5][i];
+					try {
+						await Database.insertProperty({
+							db: database,
+							category_id: categories.filter(
+								(newCategory) =>
+									result[4].filter(
+										(oldCategory) =>
+											oldCategory.id === property.category
+									)[0].title === newCategory.title
+							)[0].id,
+							title: property.title,
+							type: property.type,
+						});
+					} catch (error) {}
+				}
+				const properties = await Database.Properties.all({
+					db: database,
+				});
+				for (let i = 0; i < result[6].length; i++) {
+					const answer = result[6][i];
+					try {
+						await Database.insertAnswer({
+							db: database,
+							content: answer.content,
+							match_id: matches.filter((newMatch) => {
+								const oldMatch = result[2].filter(
+									(oldMatch) =>
+										oldMatch.id === answer.match_id
+								)[0];
+								return (
+									oldMatch.team === newMatch.team &&
+									oldMatch.user === newMatch.user &&
+									oldMatch.number === newMatch.user
+								);
+							})[0].id,
+							property_id: properties.filter(
+								(newProperty) =>
+									result[5].filter(
+										(oldProperty) =>
+											oldProperty.id === answer.property
+									)[0].title === newProperty.title
+							)[0].id,
+						});
+					} catch (error) {}
+				}
+				alert("Completed");
+			};
+		};
+		fileElement.onchange = onChange;
+		fileElement.type = "file";
+		fileElement.click();
+	};
 	return (
 		<div className="admin">
 			<div className="teams">
@@ -12,12 +221,12 @@ const Admin = ({ database }) => {
 					<Link className="action" to="/queue/load">
 						Queue Load
 					</Link>
-					<Link className="action" to="/queue/load">
-						Queue Load
-					</Link>
-					<Link className="action" to="/queue/load">
-						Queue Load
-					</Link>
+					<button className="action" onClick={backup}>
+						Backup
+					</button>
+					<button className="action" onClick={restore}>
+						Restore
+					</button>
 					<Link className="action" to="/queue/load">
 						Queue Load
 					</Link>
