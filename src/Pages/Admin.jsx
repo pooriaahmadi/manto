@@ -1,7 +1,7 @@
 import TeamsInline from "../Components/Teams/TeamsInline";
 import UsersInline from "../Components/Users/UsersInline";
 import CategoriesInline from "../Components/Categories/CategoriesInline";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import "../assets/scss/admin.scss";
 import Database from "../Database";
 const download = (filename, text) => {
@@ -207,7 +207,9 @@ const Admin = ({ database }) => {
 						});
 					} catch (error) {}
 				}
+
 				alert("Completed");
+				window.location = window.location;
 			};
 		};
 		fileElement.onchange = onChange;

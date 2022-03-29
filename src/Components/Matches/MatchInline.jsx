@@ -10,6 +10,9 @@ const MatchInline = ({ id, number, handleDelete, team, user }) => {
 				<Link className="new" to={`/teams/${team}/matches/${id}/edit`}>
 					Edit
 				</Link>
+				<Link className="new" to={`/queue/qrcode?matches=${id}`}>
+					QRCode
+				</Link>
 				<button onClick={handleDelete}>Delete</button>
 			</div>
 		</div>
