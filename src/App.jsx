@@ -28,6 +28,7 @@ import QualificationMatches from "./Pages/QualificationMatches";
 import QueuePage from "./Pages/QueuePage";
 import QueueQRCode from "./Pages/QueueQRCode";
 import QueueLoad from "./Pages/QueueLoad";
+import Analytics from "./Pages/Analytics";
 
 const App = () => {
 	const [database, setDatabase] = useState();
@@ -229,6 +230,10 @@ const App = () => {
 					<Route
 						path="/queue/load"
 						element={<QueueLoad database={database} />}
+					/>
+					<Route
+						path="/analytics"
+						element={<Analytics database={database} />}
 					/>
 				</Routes>
 			</BrowserRouter>
