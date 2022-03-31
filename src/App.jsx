@@ -29,6 +29,7 @@ import QueuePage from "./Pages/QueuePage";
 import QueueQRCode from "./Pages/QueueQRCode";
 import QueueLoad from "./Pages/QueueLoad";
 import Analytics from "./Pages/Analytics";
+import Footer from "./Components/Footer/Footer";
 
 const App = () => {
 	const [database, setDatabase] = useState();
@@ -236,6 +237,7 @@ const App = () => {
 						element={<Analytics database={database} />}
 					/>
 				</Routes>
+				<Footer></Footer>
 			</BrowserRouter>
 		</div>
 	);
