@@ -1,5 +1,6 @@
 import HeaderItem from "./HeaderItem";
-import logo from "../../assets/images/logo.png";
+// import logo from "../../assets/images/logo.png";
+import manto from "../../assets/images/manto.png";
 import "../../assets/scss/header.scss";
 import Menu from "./Menu";
 import hamMenu from "../../assets/images/menu.png";
@@ -18,13 +19,12 @@ const Header = ({ queue }) => {
 		<>
 			<header>
 				<div className="left">
-					<h1>Manto</h1>
+					<img src={manto} alt="" />
 					<div className="items">
-						<HeaderItem url="/" title="Home"></HeaderItem>
 						<HeaderItem url="/scout" title="Scout"></HeaderItem>
 						<HeaderItem
 							url="/qualification_matches"
-							title="Matches"
+							title="Schedule"
 						></HeaderItem>
 						<Link className="item queue" to="/queue">
 							<div>
@@ -37,7 +37,7 @@ const Header = ({ queue }) => {
 					</div>
 				</div>
 				<div className="right">
-					<img src={logo} alt="" />
+					{/* <img src={logo} alt="" /> */}
 					<img src={hamMenu} onClick={toggleActive} alt="" />
 				</div>
 			</header>
