@@ -23,6 +23,39 @@
             width: 100% !important;
         }
     }
+    footer {
+        .top {
+            flex-direction: column;
+            .left {
+                margin-bottom: 20px;
+                justify-content: space-between !important;
+                img {
+                    width: 100px !important;
+                    margin: unset !important;
+                    &.close {
+                        width: 40px !important;
+                        height: 40px !important;
+                    }
+                }
+            }
+            .right {
+                a {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    padding: 10px 15px !important;
+                    font-size: 15px !important;
+                }
+            }
+        }
+        .bottom {
+            p {
+                font-size: 15px !important;
+                text-align: center;
+            }
+        }
+    }
     .teams-inline {
         .top {
             flex-direction: column;

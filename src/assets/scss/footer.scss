@@ -9,7 +9,7 @@ footer {
         width: 100%;
         display: flex;
         justify-content: space-between;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         .left {
             display: flex;
             justify-content: center;
@@ -19,10 +19,10 @@ footer {
                 border-radius: 10px;
                 height: 100%;
                 padding: 10px;
+                width: 200px;
                 &:first-of-type {
                     margin-right: 20px;
                 }
-                width: 200px;
                 &.close {
                     box-shadow: unset;
                     border-radius: unset;

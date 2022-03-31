@@ -8,8 +8,12 @@ header {
         display: flex;
         justify-content: center;
         align-items: center;
-        >h1 {
-            margin-right: 25px;
+        // >h1 {
+        //     margin-right: 25px;
+        // }
+        img {
+            width: 150px;
+            margin-right: 10px;
         }
         >.items {
             display: flex;

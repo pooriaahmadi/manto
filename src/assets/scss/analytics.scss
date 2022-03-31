@@ -1,0 +1,26 @@
+.analytics {
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    .left {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 15px;
+        border-radius: 15px;
+        height: fit-content;
+        .property {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            display: flex;
+            align-items: center;
+            h1 {
+                font-size: 15px;
+            }
+            input {
+                margin-right: 20px;
+            }
+        }
+    }
+}
