@@ -1,5 +1,5 @@
 import QueueList from "../Components/Queue/QueueList";
-import "../assets/queue.scss";
+import "../assets/scss/queue.scss";
 const QueuePage = ({ database, decreaseQueue }) => {
 	return (
 		<div className="queue">

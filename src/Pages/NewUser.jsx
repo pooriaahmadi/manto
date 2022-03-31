@@ -54,7 +54,7 @@ const NewTeam = ({ database }) => {
 						value={username}
 						onChange={handleUsernameChange}
 						placeholder="regular_pooria"
-						pattern="^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$"
+						pattern="^[A-Za-z][A-Za-z0-9_]{1,29}"
 					/>
 				</div>
 				<div
