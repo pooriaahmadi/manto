@@ -42,10 +42,6 @@ const App = () => {
 	};
 	const reloadPage = () => {
 		if (!showReload) return;
-		const isOk = window.confirm("New version is available, wanna update?");
-		if (!isOk) {
-			return;
-		}
 		waitingWorker?.postMessage({ type: "SKIP_WAITING" });
 		setShowReload(false);
 		window.location.reload(true);
