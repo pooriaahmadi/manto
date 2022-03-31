@@ -18,9 +18,10 @@ const Footer = () => {
 			</div>
 			<div className="bottom">
 				<p>
-					Copyright 2022 <span>Team 3161</span>, Made with lots of ☕
-					and ❤️ by
-					<a href="https://github.com/pooriaahmadi">Pooria Ahmadi</a>
+					Copyright 2022 Manto, Made with lots of ☕ and ❤️ by
+					<a href="https://github.com/pooriaahmadi/manto">
+						Team 3161
+					</a>
 				</p>
 			</div>
 		</footer>
