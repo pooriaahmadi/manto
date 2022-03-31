@@ -1,6 +1,8 @@
 import HeaderItem from "./HeaderItem";
 import close from "../../assets/images/close.png";
 import "../../assets/scss/menu.scss";
+import cuteTeam3161 from "../../assets/images/cuteteam3161.svg";
+import mantoCute from "../../assets/images/mantocute.png";
 import { Link } from "react-router-dom";
 
 const Menu = ({ active, toggleActive, queue }) => {
@@ -10,11 +12,10 @@ const Menu = ({ active, toggleActive, queue }) => {
 				<h1>Manto</h1> <img src={close} onClick={toggleActive} alt="" />
 			</div>
 			<div className="bottom" onClick={toggleActive}>
-				<HeaderItem url="/" title="Home" />
 				<HeaderItem url="/scout" title="Scout" />
 				<HeaderItem
 					url="/qualification_matches"
-					title="Matches"
+					title="Schedule"
 				></HeaderItem>
 				<Link className="item queue" to="/queue">
 					<div>
@@ -24,6 +25,16 @@ const Menu = ({ active, toggleActive, queue }) => {
 				</Link>
 				<HeaderItem url="/admin" title="Admin" />
 				<HeaderItem url="/update" title="Update" />
+			</div>
+			<div className="menu-footer">
+				<div className="left">
+					<img src={mantoCute} alt="" />
+					<img src={close} className="close" alt="" />
+					<img src={cuteTeam3161} alt="" />
+				</div>
+				<div className="right">
+					<Link to="/aboutus">About us</Link>
+				</div>
 			</div>
 		</div>
 	);
