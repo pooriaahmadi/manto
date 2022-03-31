@@ -229,8 +229,8 @@ const Admin = ({ database }) => {
 					<button className="action" onClick={restore}>
 						Restore
 					</button>
-					<Link className="action" to="/queue/load">
-						Queue Load
+					<Link className="action" to="/analytics">
+						Analytics
 					</Link>
 				</div>
 				<TeamsInline database={database}></TeamsInline>
