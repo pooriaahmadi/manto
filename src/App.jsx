@@ -178,7 +178,6 @@ const App = () => {
 						path="/properties/category/:id/new"
 						element={<NewProperty database={database} />}
 					/>
-					<Route path="/update" element={<ReloadPageElement />} />
 					<Route
 						path="/qualification_matches"
 						element={
