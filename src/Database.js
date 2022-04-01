@@ -345,6 +345,11 @@ class Database {
                 return { id: keys[index], ...item };
             });
         };
+        static delete = async({ db, id }) => {
+            const txn = db.transaction("answers", "readwrite");
+            const objectStore = txn.objectStore("answers");
+            await objectStore.delete(id);
+        };
 
         static getByMatchAndProperty = async({
             db,

@@ -68,6 +68,17 @@ const MatchesInline = ({ database, team_id, increaseQueue, decreaseQueue }) => {
 							db: database,
 							match_id: item.id,
 						});
+						const answers = await Database.Answers.getByMatch({
+							db: database,
+							match_id: item.id,
+						});
+						for (let i = 0; i < answers.length; i++) {
+							const answer = answers[i];
+							await Database.Answers.delete({
+								db: database,
+								id: answer.id,
+							});
+						}
 						await Database.Matches.delete({
 							db: database,
 							id: item.id,

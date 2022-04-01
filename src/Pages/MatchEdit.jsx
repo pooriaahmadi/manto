@@ -43,6 +43,17 @@ const MatchEdit = ({ database, decreaseQueue }) => {
 				match_id: matchId,
 			});
 		} catch (error) {}
+		const answers = await Database.Answers.getByMatch({
+			db: database,
+			match_id: matchId,
+		});
+		for (let i = 0; i < answers.length; i++) {
+			const answer = answers[i];
+			await Database.Answers.delete({
+				db: database,
+				id: answer.id,
+			});
+		}
 		await Database.Matches.delete({
 			db: database,
 			id: matchId,

@@ -3,13 +3,20 @@
     padding: 0 20px;
     display: flex;
     justify-content: space-between;
+    .right {
+        width: calc(100% - 340px);
+    }
     .left {
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         padding: 15px;
         border-radius: 15px;
         height: fit-content;
+        width: 300px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
         .property {
-            margin-bottom: 20px;
+            // margin-bottom: 20px;
             padding: 15px;
             border-radius: 10px;
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
