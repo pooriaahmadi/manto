@@ -17,7 +17,6 @@ import UsersLoad from "./Pages/UsersLoad";
 import NewCategory from "./Pages/NewCategory";
 import CategoriesQRCode from "./Pages/CategoriesQRCode";
 import CategoriesLoad from "./Pages/CategoriesLoad";
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import NewProperty from "./Pages/NewProperty";
 import Scout from "./Pages/Scout";
 import TeamScout from "./Components/Teams/TeamScout";
@@ -34,23 +33,7 @@ import About from "./Pages/About";
 
 const App = () => {
 	const [database, setDatabase] = useState();
-	const [showReload, setShowReload] = useState(false);
-	const [waitingWorker, setWaitingWorker] = useState(null);
 	const [queue, setQueue] = useState(0);
-	const onSWUpdate = (registration) => {
-		setShowReload(true);
-		setWaitingWorker(registration.waiting);
-	};
-	const reloadPage = () => {
-		if (!showReload) return;
-		waitingWorker?.postMessage({ type: "SKIP_WAITING" });
-		setShowReload(false);
-		window.location.reload(true);
-	};
-	const ReloadPageElement = () => {
-		reloadPage();
-		window.location.href = "/";
-	};
 	useEffect(() => {
 		const stuff = async () => {
 			const db = await idb.openDB("manto", 10, {
@@ -79,7 +62,6 @@ const App = () => {
 			setQueue(waitingMatches.length);
 			setDatabase(db);
 		};
-		serviceWorkerRegistration.register({ onUpdate: onSWUpdate });
 		stuff();
 	}, []);
 	const increaseQueue = () => {
@@ -92,7 +74,6 @@ const App = () => {
 		<div className="app">
 			<BrowserRouter>
 				<Header queue={queue} />
-				{reloadPage()}
 				<Routes>
 					<Route path="/" element={<Home database={database} />} />
 					<Route
