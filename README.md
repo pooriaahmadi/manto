@@ -2,7 +2,7 @@
 
 # Manto
 
-An scouting app made specifically for FRC events. [Join the support server](https://discord.gg/fHDy5dr8QS)
+A scouting app made specifically for FRC events. [Join the support server](https://discord.gg/fHDy5dr8QS)
 
 This app is made for having better time during scouting and having more accurate results instantly
 
