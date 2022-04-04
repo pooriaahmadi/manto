@@ -94,10 +94,11 @@ const Admin = ({ database }) => {
 					} catch (error) {}
 				}
 				const users = await Database.Users.all({ db: database });
+				let changedMatches = [];
 				for (let i = 0; i < result[2].length; i++) {
 					const match = result[2][i];
 					try {
-						await Database.insertMatch({
+						const matchID = await Database.insertMatch({
 							db: database,
 							number: match.number,
 							team_id: teams.filter(
@@ -113,6 +114,7 @@ const Admin = ({ database }) => {
 									)[0].username === newUser.username
 							)[0].id,
 						});
+						changedMatches.push([match.id, matchID]);
 					} catch (error) {}
 				}
 				const matches = await Database.Matches.all({ db: database });
@@ -186,17 +188,9 @@ const Admin = ({ database }) => {
 						await Database.insertAnswer({
 							db: database,
 							content: answer.content,
-							match_id: matches.filter((newMatch) => {
-								const oldMatch = result[2].filter(
-									(oldMatch) =>
-										oldMatch.id === answer.match_id
-								)[0];
-								return (
-									oldMatch.team === newMatch.team &&
-									oldMatch.user === newMatch.user &&
-									oldMatch.number === newMatch.user
-								);
-							})[0].id,
+							match_id: changedMatches.filter(
+								(item) => item[0] === answer.match
+							)[0][1],
 							property_id: properties.filter(
 								(newProperty) =>
 									result[5].filter(
@@ -205,11 +199,12 @@ const Admin = ({ database }) => {
 									)[0].title === newProperty.title
 							)[0].id,
 						});
-					} catch (error) {}
+					} catch (error) {
+						console.log(error);
+					}
 				}
 
-				alert("Completed");
-				window.location = window.location;
+				alert("Completed now reload the page");
 			};
 		};
 		fileElement.onchange = onChange;
