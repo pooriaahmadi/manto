@@ -69,7 +69,7 @@ const Analytics = ({ database }) => {
 		labels,
 		datasets: teams.map((team, index) => {
 			return {
-				label: team.name,
+				label: `${team.name} ${team.number}`,
 				data: selected.map((item) => {
 					let sum = 0;
 					const property = properties[item];
