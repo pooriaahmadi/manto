@@ -33,6 +33,8 @@ Yes, it uses PWA so you can add it to your homescreen or desktop in any OS.
 
 This app uses qr codes to transfer data, don't worry it's not messy or frustrating.
 
+## [Tutorial](HOWTO.md)
+
 ## Installation
 
 Install the dependencies using npm

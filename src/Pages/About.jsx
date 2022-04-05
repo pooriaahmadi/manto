@@ -7,9 +7,9 @@ const About = () => {
 			<div className="history">
 				<h1>History</h1>
 				<p>
-					Because of the community's needs, apps like Facebook,
-					TikTok, and Instagram have not been popular. They produced a
-					demand and a scarcity among the populace.
+					Apps like Facebook, TikTok and Instagram didn't got popular
+					because of community's needs. They produced a demand and a
+					scarcity among the populace.
 				</p>
 				<p>
 					The same thing happened with Manto; scouting was done on
