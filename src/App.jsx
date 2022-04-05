@@ -30,6 +30,7 @@ import QueueLoad from "./Pages/QueueLoad";
 import Analytics from "./Pages/Analytics";
 import Footer from "./Components/Footer/Footer";
 import About from "./Pages/About";
+import "./assets/scss/colors.scss"
 
 const App = () => {
 	const [database, setDatabase] = useState();

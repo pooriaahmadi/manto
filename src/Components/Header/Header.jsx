@@ -33,6 +33,10 @@ const Header = ({ queue }) => {
 							</div>
 						</Link>
 						<HeaderItem url="/admin" title="Admin"></HeaderItem>
+						<HeaderItem
+							url="/aboutus"
+							title="About us"
+						></HeaderItem>
 						<HeaderItem url="/update" title="Update"></HeaderItem>
 					</div>
 				</div>
