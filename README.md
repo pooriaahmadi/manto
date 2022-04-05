@@ -8,7 +8,7 @@ This app is made for having better time during scouting and having more accurate
 
 ## Wanna use the app?
 
-You can use the hosted version by clicking on this [link](https://manto.pooria.tech) or you can host by your own considering the license and copyrights.
+You can use the hosted version by clicking on this [link](https://manto.team3161.ca) or you can host by your own considering the license and copyrights.
 
 ## Features
 
