@@ -56,11 +56,14 @@ const QueueQRCode = ({ database, decreaseQueue }) => {
 					delete item.category;
 					return item;
 				});
-
 				const user = await Database.Users.getById({
 					db: database,
 					id: parseInt(localStorage.getItem("user")),
 				});
+				if (!user) {
+					localStorage.removeItem("user");
+					navigate("/");
+				}
 				setImage(
 					await qrcode.toDataURL(
 						JSON.stringify({
@@ -88,7 +91,9 @@ const QueueQRCode = ({ database, decreaseQueue }) => {
 						{ width: 1000, height: 1000 }
 					)
 				);
-			} catch (error) {}
+			} catch (error) {
+				console.log(error);
+			}
 		};
 		stuff();
 	}, [database]);
