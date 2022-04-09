@@ -7,7 +7,7 @@ const About = () => {
 			<div className="history">
 				<h1>History</h1>
 				<p>
-					Apps like Facebook, TikTok and Instagram didn't got popular
+					.Apps like Facebook, TikTok and Instagram didn't got popular
 					because of community's needs. They produced a demand and a
 					scarcity among the populace.
 				</p>
