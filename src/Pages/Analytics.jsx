@@ -65,28 +65,38 @@ const Analytics = ({ database }) => {
 			},
 		},
 	};
+	const dataset = [];
+	for (let i = 0; i < teams.length; i++) {
+		const team = teams[i];
+		const output = [];
+		for (let k = 0; k < selected.length; k++) {
+			const property = properties[selected[k]];
+			const teamMatches = matches.filter(
+				(match) => match.team === team.id
+			);
+			const matchAnswers = teamMatches.map((match) =>
+				answers.filter((answer) => answer.match === match.id)
+			);
+			const propertyAnswers = matchAnswers.map((answers) =>
+				answers.filter((answer) => answer.property === property.id)
+			);
+			let outputSum = 0;
+			propertyAnswers.forEach((item) => {
+				let sum = 0;
+				item.forEach((item) => (sum += item.content));
+				outputSum += sum / item.length;
+			});
+			output.push(outputSum / propertyAnswers.length);
+		}
+		dataset.push({
+			label: `${team.name} ${team.number}`,
+			data: output,
+			backgroundColor: colors[i],
+		});
+	}
 	const data = {
 		labels,
-		datasets: teams.map((team, index) => {
-			return {
-				label: `${team.name} ${team.number}`,
-				data: selected.map((item) => {
-					let sum = 0;
-					const property = properties[item];
-					const propertyAnswers = answers
-						.filter((answer) => answer.property === property.id)
-						.filter(
-							(answer) =>
-								matches.filter(
-									(match) => match.id === answer.match
-								)[0].team === team.id
-						);
-					propertyAnswers.forEach((item) => (sum += item.content));
-					return sum / propertyAnswers.length;
-				}),
-				backgroundColor: colors[index],
-			};
-		}),
+		datasets: dataset,
 	};
 	return (
 		<div className="analytics">

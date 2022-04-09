@@ -105,12 +105,26 @@ const QueueLoad = ({ database }) => {
 			);
 			for (let i = 0; i < matches.length; i++) {
 				const match = matches[i];
-				const newMatch = await Database.insertMatch({
+				const matchesFromDatabase = await Database.Matches.getByNumber({
 					db: database,
 					number: match.number,
-					user_id: user.id,
-					team_id: match.team.id,
 				});
+				let newMatchId;
+				if (
+					matchesFromDatabase.filter(
+						(item) => item.team === match.team.id
+					).length
+				) {
+					return;
+				} else {
+					newMatchId = await Database.insertMatch({
+						db: database,
+						number: match.number,
+						user_id: user.id,
+						team_id: match.team.id,
+					});
+				}
+
 				for (let j = 0; j < answers.length; j++) {
 					const batch = answers[j];
 					for (let k = 0; k < batch.length; k++) {
@@ -118,7 +132,7 @@ const QueueLoad = ({ database }) => {
 						await Database.insertAnswer({
 							db: database,
 							content: checkContent(answer.content),
-							match_id: newMatch,
+							match_id: newMatchId,
 							property_id: properties.filter(
 								(item) => item.id === answer.property
 							)[0].mainId,

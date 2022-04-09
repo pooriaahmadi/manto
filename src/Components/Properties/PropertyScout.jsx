@@ -49,7 +49,6 @@ const PropertyScout = ({ database, matchId, id, title, type }) => {
 			setValue(parseInt(e.target.value));
 			tmp = parseInt(e.target.value);
 		}
-
 		await Database.Answers.update({
 			db: database,
 			id: answerId,
