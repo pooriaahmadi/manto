@@ -126,19 +126,17 @@ const QueueLoad = ({ database }) => {
 					number: match.number,
 				});
 
-				for (let j = 0; j < answers.length; j++) {
-					const batch = answers[j];
-					for (let k = 0; k < batch.length; k++) {
-						const answer = batch[k];
-						await Database.insertAnswer({
-							db: database,
-							content: checkContent(answer.content),
-							match_id: newMatchId,
-							property_id: properties.filter(
-								(item) => item.id === answer.property
-							)[0].mainId,
-						});
-					}
+				const batch = answers[i];
+				for (let k = 0; k < batch.length; k++) {
+					const answer = batch[k];
+					await Database.insertAnswer({
+						db: database,
+						content: checkContent(answer.content),
+						match_id: newMatchId,
+						property_id: properties.filter(
+							(item) => item.id === answer.property
+						)[0].mainId,
+					});
 				}
 			}
 			navigate("/admin");
