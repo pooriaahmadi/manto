@@ -30,14 +30,14 @@ import QueueLoad from "./Pages/QueueLoad";
 import Analytics from "./Pages/Analytics";
 import Footer from "./Components/Footer/Footer";
 import About from "./Pages/About";
-import "./assets/scss/colors.scss"
+import "./assets/scss/colors.scss";
 
 const App = () => {
 	const [database, setDatabase] = useState();
 	const [queue, setQueue] = useState(0);
 	useEffect(() => {
 		const stuff = async () => {
-			const db = await idb.openDB("manto", 10, {
+			const db = await idb.openDB("manto", 11, {
 				async upgrade(db, oldVersion, newVersion, transaction) {
 					const objectStores = [
 						"users",
