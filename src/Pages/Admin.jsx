@@ -63,6 +63,7 @@ const Admin = ({ database }) => {
 					"Reset the database? if no please press cancel and the data will be pushed."
 				);
 				if (reset) {
+					console.log("reset database");
 					await Database.Teams.clear({ db: database });
 					await Database.Answers.clear({ db: database });
 					await Database.Categories.clear({ db: database });
@@ -95,18 +96,40 @@ const Admin = ({ database }) => {
 				}
 				const users = await Database.Users.all({ db: database });
 				let changedMatches = [];
+				let tmpMatches = (
+					await Database.Matches.all({ db: database })
+				).map((item) => {
+					return {
+						number: item.number,
+						teamId: item.team,
+					};
+				});
 				for (let i = 0; i < result[2].length; i++) {
 					const match = result[2][i];
 					try {
-						const matchID = await Database.insertMatch({
-							db: database,
+						const data = {
 							number: match.number,
-							team_id: teams.filter(
+							teamId: teams.filter(
 								(newTeam) =>
 									result[0].filter(
 										(oldTeam) => oldTeam.id === match.team
 									)[0].number === newTeam.number
 							)[0].id,
+						};
+						if (
+							tmpMatches.filter(
+								(match) =>
+									match.number === data.number &&
+									match.teamId === data.teamId
+							).length
+						) {
+							console.log("dublicate");
+							continue;
+						}
+						const matchID = await Database.insertMatch({
+							db: database,
+							number: data.number,
+							team_id: data.teamId,
 							user_id: users.filter(
 								(newUser) =>
 									result[1].filter(
@@ -114,6 +137,7 @@ const Admin = ({ database }) => {
 									)[0].username === newUser.username
 							)[0].id,
 						});
+						tmpMatches.push(data);
 						changedMatches.push([match.id, matchID]);
 					} catch (error) {}
 				}
@@ -182,25 +206,35 @@ const Admin = ({ database }) => {
 				const properties = await Database.Properties.all({
 					db: database,
 				});
-				for (let i = 0; i < result[6].length; i++) {
-					const answer = result[6][i];
-					try {
-						await Database.insertAnswer({
-							db: database,
-							content: answer.content,
-							match_id: changedMatches.filter(
-								(item) => item[0] === answer.match
-							)[0][1],
-							property_id: properties.filter(
-								(newProperty) =>
-									result[5].filter(
-										(oldProperty) =>
-											oldProperty.id === answer.property
-									)[0].title === newProperty.title
-							)[0].id,
-						});
-					} catch (error) {
-						console.log(error);
+				for (let i = 0; i < matches.length; i++) {
+					const match = matches[i];
+					const matchAnswers = result[6].filter((answer) => {
+						const ay = changedMatches.filter(
+							(item) => item[0] === answer.match
+						);
+						return ay.length ? ay[0][1] === match.id : false;
+					});
+					for (let k = 0; k < matchAnswers.length; k++) {
+						const answer = matchAnswers[k];
+						try {
+							await Database.insertAnswer({
+								db: database,
+								content: answer.content,
+								match_id: changedMatches.filter(
+									(item) => item[0] === answer.match
+								)[0][1],
+								property_id: properties.filter(
+									(newProperty) =>
+										result[5].filter(
+											(oldProperty) =>
+												oldProperty.id ===
+												answer.property
+										)[0].title === newProperty.title
+								)[0].id,
+							});
+						} catch (error) {
+							console.log(error);
+						}
 					}
 				}
 
