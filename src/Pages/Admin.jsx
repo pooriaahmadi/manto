@@ -170,9 +170,7 @@ const Admin = ({ database }) => {
 									)[0].number
 							),
 						});
-					} catch (error) {
-						console.log(error);
-					}
+					} catch (error) {}
 				}
 				for (let i = 0; i < result[4].length; i++) {
 					const category = result[4][i];
@@ -232,9 +230,7 @@ const Admin = ({ database }) => {
 										)[0].title === newProperty.title
 								)[0].id,
 							});
-						} catch (error) {
-							console.log(error);
-						}
+						} catch (error) {}
 					}
 				}
 

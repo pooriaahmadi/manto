@@ -16,6 +16,14 @@ const MatchEdit = ({ database, decreaseQueue }) => {
 	useEffect(() => {
 		const stuff = async () => {
 			try {
+				const userID = parseInt(localStorage.getItem("user"));
+				const user = await Database.Users.getById({
+					db: database,
+					id: userID,
+				});
+				if (!user) {
+					navigate("/");
+				}
 				const team = await Database.Teams.getById({
 					db: database,
 					id: teamId,

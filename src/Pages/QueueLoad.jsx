@@ -106,14 +106,14 @@ const QueueLoad = ({ database }) => {
 			const tmpMatches = await Database.Matches.all({ db: database });
 			for (let i = 0; i < matches.length; i++) {
 				const match = matches[i];
-				if (
-					tmpMatches.filter(
-						(tmpMatch) =>
-							tmpMatch.team === match.team.id &&
-							tmpMatch.number === match.number
-					).length
-				) {
-					continue;
+				const dublicate = tmpMatches.filter(
+					(tmpMatch) =>
+						tmpMatch.team === match.team.id &&
+						tmpMatch.number === match.number
+				);
+				if (dublicate.length) {
+					console.log("dublicate");
+					return;
 				}
 				const newMatchId = await Database.insertMatch({
 					db: database,

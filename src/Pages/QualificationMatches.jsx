@@ -9,6 +9,12 @@ const QualificationMatches = ({ database, increaseQueue }) => {
 	useEffect(() => {
 		const stuff = async () => {
 			try {
+				const userID = parseInt(localStorage.getItem("user"));
+				const user = await Database.Users.getById({
+					db: database,
+					id: userID,
+				});
+				if (!user) return navigate("/");
 				const matches = await Database.QualificationMatches.all({
 					db: database,
 				});
