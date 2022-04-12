@@ -37,11 +37,9 @@ const Header = ({ queue }) => {
 							url="/aboutus"
 							title="About us"
 						></HeaderItem>
-						<HeaderItem url="/update" title="Update"></HeaderItem>
 					</div>
 				</div>
 				<div className="right">
-					{/* <img src={logo} alt="" /> */}
 					<img src={hamMenu} onClick={toggleActive} alt="" />
 				</div>
 			</header>

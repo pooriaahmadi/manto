@@ -72,6 +72,7 @@ const Admin = ({ database }) => {
 					await Database.QualificationMatches.clear({ db: database });
 					await Database.Users.clear({ db: database });
 					await Database.WaitingMatches.clear({ db: database });
+					localStorage.removeItem("user");
 				}
 				for (let i = 0; i < result[0].length; i++) {
 					const team = result[0][i];
@@ -241,6 +242,20 @@ const Admin = ({ database }) => {
 		fileElement.type = "file";
 		fileElement.click();
 	};
+	const reset = async () => {
+		await Database.Teams.clear({ db: database });
+		await Database.Answers.clear({ db: database });
+		await Database.Categories.clear({ db: database });
+		await Database.Matches.clear({ db: database });
+		await Database.Properties.clear({ db: database });
+		await Database.QualificationMatches.clear({ db: database });
+		await Database.Users.clear({ db: database });
+		await Database.WaitingMatches.clear({ db: database });
+		localStorage.removeItem("user");
+		alert(
+			"done, please reload the page cause I didn't have time to code it."
+		);
+	};
 	return (
 		<div className="admin">
 			<div className="teams">
@@ -257,6 +272,9 @@ const Admin = ({ database }) => {
 					<Link className="action" to="/analytics">
 						Analytics
 					</Link>
+					<button className="action" onClick={reset}>
+						Reset
+					</button>
 				</div>
 				<TeamsInline database={database}></TeamsInline>
 				<UsersInline database={database}></UsersInline>
