@@ -278,6 +278,8 @@ const Admin = ({ database }) => {
 		fileElement.click();
 	};
 	const reset = async () => {
+		const isSure = window.confirm("Are you sure?");
+		if (!isSure) return;
 		await Database.Teams.clear({ db: database });
 		await Database.Answers.clear({ db: database });
 		await Database.Categories.clear({ db: database });
