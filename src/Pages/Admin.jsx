@@ -75,6 +75,7 @@ const Admin = ({ database }) => {
 					await Database.QualificationMatches.clear({ db: database });
 					await Database.Users.clear({ db: database });
 					await Database.WaitingMatches.clear({ db: database });
+					await Database.Dublicates.clear({ db: database });
 					localStorage.removeItem("user");
 				}
 				for (let i = 0; i < result[0].length; i++) {
@@ -106,9 +107,9 @@ const Admin = ({ database }) => {
 					return {
 						number: item.number,
 						teamId: item.team,
+						id: item.id,
 					};
 				});
-				const dublicateMatches = [];
 				for (let i = 0; i < result[2].length; i++) {
 					const match = result[2][i];
 					try {
@@ -128,7 +129,6 @@ const Admin = ({ database }) => {
 						);
 						if (dublicate.length) {
 							console.log("dublicate");
-							dublicateMatches.push([match.id, dublicate[0].id]);
 							continue;
 						}
 						const matchID = await Database.insertMatch({
@@ -238,25 +238,36 @@ const Admin = ({ database }) => {
 						} catch (error) {}
 					}
 				}
-				for (let i = 0; i < dublicateMatches; i++) {
-					const matchAnswers = result[7].filter((answer) => {
-						return dublicateMatches[i][0] === answer.match;
+				for (let i = 0; i < result[7].length; i++) {
+					const answer = result[7][i];
+					const match = matches.filter(
+						(match) =>
+							result[2].filter(
+								(oldMatch) =>
+									oldMatch.number === match.number &&
+									match.team ==
+										teams.filter(
+											(newTeam) =>
+												result[0].filter(
+													(oldTeam) =>
+														oldTeam.id ===
+														oldMatch.team
+												)[0].number === newTeam.number
+										)[0].id
+							).length
+					)[0];
+					await Database.Dublicates.insert({
+						db: database,
+						content: answer.content,
+						match_id: match.id,
+						property_id: properties.filter(
+							(newProperty) =>
+								result[5].filter(
+									(oldProperty) =>
+										oldProperty.id === answer.property
+								)[0].title === newProperty.title
+						)[0].id,
 					});
-					for (let k = 0; k < matchAnswers.length; k++) {
-						const answer = matchAnswers[k];
-						await Database.Dublicates.insert({
-							db: database,
-							content: answer.content,
-							match_id: dublicateMatches[i][1],
-							property_id: properties.filter(
-								(newProperty) =>
-									result[5].filter(
-										(oldProperty) =>
-											oldProperty.id === answer.property
-									)[0].title === newProperty.title
-							)[0].id,
-						});
-					}
 				}
 
 				alert("Completed now reload the page");
