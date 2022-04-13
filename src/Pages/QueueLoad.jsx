@@ -113,6 +113,18 @@ const QueueLoad = ({ database }) => {
 				);
 				if (dublicate.length) {
 					console.log("dublicate");
+					const batch = answers[i];
+					for (let k = 0; k < batch.length; k++) {
+						const answer = batch[k];
+						await Database.Dublicates.insert({
+							db: database,
+							content: checkContent(answer.content),
+							match_id: dublicate[0].id,
+							property_id: properties.filter(
+								(item) => item.id === answer.property
+							)[0].mainId,
+						});
+					}
 					return;
 				}
 				const newMatchId = await Database.insertMatch({

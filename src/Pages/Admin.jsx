@@ -1,7 +1,7 @@
 import TeamsInline from "../Components/Teams/TeamsInline";
 import UsersInline from "../Components/Users/UsersInline";
 import CategoriesInline from "../Components/Categories/CategoriesInline";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../assets/scss/admin.scss";
 import Database from "../Database";
 const download = (filename, text) => {
@@ -20,6 +20,7 @@ const download = (filename, text) => {
 	document.body.removeChild(element);
 };
 const Admin = ({ database }) => {
+	const navigate = useNavigate();
 	const backup = async () => {
 		const teams = await Database.Teams.all({ db: database });
 		const users = await Database.Users.all({ db: database });
@@ -30,6 +31,7 @@ const Admin = ({ database }) => {
 		const categories = await Database.Categories.all({ db: database });
 		const properties = await Database.Properties.all({ db: database });
 		const answers = await Database.Answers.all({ db: database });
+		const dublicates = await Database.Dublicates.all({ db: database });
 		const output = [];
 		output.push(JSON.stringify(teams));
 		output.push(JSON.stringify(users));
@@ -38,6 +40,7 @@ const Admin = ({ database }) => {
 		output.push(JSON.stringify(categories));
 		output.push(JSON.stringify(properties));
 		output.push(JSON.stringify(answers));
+		output.push(JSON.stringify(dublicates));
 
 		download(
 			`Backup ${new Date().toLocaleString()}`,
@@ -105,6 +108,7 @@ const Admin = ({ database }) => {
 						teamId: item.team,
 					};
 				});
+				const dublicateMatches = [];
 				for (let i = 0; i < result[2].length; i++) {
 					const match = result[2][i];
 					try {
@@ -117,14 +121,14 @@ const Admin = ({ database }) => {
 									)[0].number === newTeam.number
 							)[0].id,
 						};
-						if (
-							tmpMatches.filter(
-								(match) =>
-									match.number === data.number &&
-									match.teamId === data.teamId
-							).length
-						) {
+						const dublicate = tmpMatches.filter(
+							(match) =>
+								match.number === data.number &&
+								match.teamId === data.teamId
+						);
+						if (dublicate.length) {
 							console.log("dublicate");
+							dublicateMatches.push([match.id, dublicate[0].id]);
 							continue;
 						}
 						const matchID = await Database.insertMatch({
@@ -234,6 +238,26 @@ const Admin = ({ database }) => {
 						} catch (error) {}
 					}
 				}
+				for (let i = 0; i < dublicateMatches; i++) {
+					const matchAnswers = result[7].filter((answer) => {
+						return dublicateMatches[i][0] === answer.match;
+					});
+					for (let k = 0; k < matchAnswers.length; k++) {
+						const answer = matchAnswers[k];
+						await Database.Dublicates.insert({
+							db: database,
+							content: answer.content,
+							match_id: dublicateMatches[i][1],
+							property_id: properties.filter(
+								(newProperty) =>
+									result[5].filter(
+										(oldProperty) =>
+											oldProperty.id === answer.property
+									)[0].title === newProperty.title
+							)[0].id,
+						});
+					}
+				}
 
 				alert("Completed now reload the page");
 			};
@@ -251,10 +275,10 @@ const Admin = ({ database }) => {
 		await Database.QualificationMatches.clear({ db: database });
 		await Database.Users.clear({ db: database });
 		await Database.WaitingMatches.clear({ db: database });
+		await Database.Dublicates.clear({ db: database });
 		localStorage.removeItem("user");
-		alert(
-			"done, please reload the page cause I didn't have time to code it."
-		);
+		alert("done");
+		navigate("/admin");
 	};
 	return (
 		<div className="admin">

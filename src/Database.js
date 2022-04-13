@@ -49,6 +49,11 @@ class Database {
         qualificationMatches.createIndex("number", "number", {
             unique: true,
         });
+        const dublicates = db.createObjectStore("dublicates", {
+            autoIncrement: true,
+        });
+        dublicates.createIndex("proeprty", "property");
+        dublicates.createIndex("match", "match");
     };
     static QualificationMatches = class QualificationMatches {
         static insert = async({ db, number, redTeams, blueTeams }) => {
@@ -381,6 +386,78 @@ class Database {
             const txn = db.transaction("answers", "readwrite");
             const answers = txn.objectStore("answers");
             await answers.clear();
+        };
+    };
+    static Dublicates = class Dublicates {
+        static getByProperty = async({ db, property_id }) => {
+            const txn = db.transaction("dublicates", "readwrite");
+            const dublicates = txn.objectStore("dublicates");
+            const index = dublicates.index("proeprty");
+            try {
+                const id = await index.getKey(property_id);
+                if (!id) return;
+                return {
+                    ...(await index.get(property_id)),
+                    id: id,
+                };
+            } catch (error) {
+                return;
+            }
+        };
+        static getByMatch = async({ db, match_id }) => {
+            const txn = db.transaction("dublicates", "readwrite");
+            const dublicates = txn.objectStore("dublicates");
+            const index = dublicates.index("match");
+            const keys = await index.getAllKeys(match_id);
+            return (await index.getAll(match_id)).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static delete = async({ db, id }) => {
+            const txn = db.transaction("dublicates", "readwrite");
+            const objectStore = txn.objectStore("dublicates");
+            await objectStore.delete(id);
+        };
+
+        static getByMatchAndProperty = async({
+            db,
+            property_id,
+            match_id,
+        }) => {
+            let dublicates = await Database.Dublicates.all({ db });
+            dublicates = dublicates.filter(
+                (item) =>
+                item.property === property_id && item.match === match_id
+            );
+            return dublicates.length ? dublicates[0] : undefined;
+        };
+        static all = async({ db }) => {
+            const txn = db.transaction("dublicates", "readonly");
+            const objectStore = txn.objectStore("dublicates");
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static update = async({ db, id, data }) => {
+            const txn = db.transaction("dublicates", "readwrite");
+            const dublicates = txn.objectStore("dublicates");
+            const dublicate = await dublicates.get(id);
+            await dublicates.put({...dublicate, ...data }, id);
+        };
+        static clear = async({ db }) => {
+            const txn = db.transaction("dublicates", "readwrite");
+            const dublicates = txn.objectStore("dublicates");
+            await dublicates.clear();
+        };
+        static insert = async({ db, content, property_id, match_id }) => {
+            const txn = db.transaction("dublicates", "readwrite");
+            const dublicates = txn.objectStore("dublicates");
+            return await dublicates.add({
+                content: content,
+                property: property_id,
+                match: match_id,
+            });
         };
     };
     static insertAnswer = async({ db, content, property_id, match_id }) => {

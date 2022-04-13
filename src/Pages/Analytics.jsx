@@ -19,6 +19,7 @@ const Analytics = ({ database }) => {
 	const [matches, setMatches] = useState([]);
 	const [selected, setSelected] = useState([]);
 	const [colors, setColors] = useState([]);
+	const [dublicates, setDublicates] = useState([]);
 	ChartJS.register(
 		CategoryScale,
 		LinearScale,
@@ -37,6 +38,9 @@ const Analytics = ({ database }) => {
 				const teams = await Database.Teams.all({ db: database });
 				const answers = await Database.Answers.all({ db: database });
 				const matches = await Database.Matches.all({ db: database });
+				const dublicates = await Database.Dublicates.all({
+					db: database,
+				});
 				setColors(
 					teams.map(
 						(item) =>
@@ -47,6 +51,7 @@ const Analytics = ({ database }) => {
 				setTeams(teams);
 				setAnswers(answers);
 				setProperties(properties);
+				setDublicates(dublicates);
 			} catch (error) {}
 		};
 		stuff();
@@ -77,16 +82,33 @@ const Analytics = ({ database }) => {
 			const matchAnswers = teamMatches.map((match) =>
 				answers.filter((answer) => answer.match === match.id)
 			);
+			const dublicateMatchAnswers = teamMatches
+				.map((match) =>
+					dublicates.filter((answer) => answer.match === match.id)
+				)
+				.map((answers) =>
+					dublicates.filter(
+						(answer) => answer.property === property.id
+					)
+				);
 			const propertyAnswers = matchAnswers.map((answers) =>
 				answers.filter((answer) => answer.property === property.id)
 			);
 			let outputSum = 0;
+			let counter = 0;
 			propertyAnswers.forEach((item) => {
 				let sum = 0;
 				item.forEach((item) => (sum += item.content));
-				outputSum += sum / item.length;
+				counter += item.length;
+				outputSum += sum;
 			});
-			output.push(outputSum / propertyAnswers.length);
+			dublicateMatchAnswers.forEach((item) => {
+				let sum = 0;
+				item.forEach((item) => (sum += item.content));
+				counter += item.length;
+				outputSum += sum;
+			});
+			output.push(outputSum / counter);
 		}
 		dataset.push({
 			label: `${team.name} ${team.number}`,
