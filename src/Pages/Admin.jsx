@@ -88,6 +88,7 @@ const Admin = ({ database }) => {
 						});
 					} catch (error) {}
 				}
+				console.log("teams done");
 				const teams = await Database.Teams.all({ db: database });
 				for (let i = 0; i < result[1].length; i++) {
 					const user = result[1][i];
@@ -100,6 +101,9 @@ const Admin = ({ database }) => {
 					} catch (error) {}
 				}
 				const users = await Database.Users.all({ db: database });
+				console.log("users done");
+				console.log(users);
+
 				let changedMatches = [];
 				let tmpMatches = (
 					await Database.Matches.all({ db: database })
@@ -135,16 +139,13 @@ const Admin = ({ database }) => {
 							db: database,
 							number: data.number,
 							team_id: data.teamId,
-							user_id: users.filter(
-								(newUser) =>
-									result[1].filter(
-										(oldUser) => oldUser.id === match.user
-									)[0].username === newUser.username
-							)[0].id,
+							user_id: users[0].id,
 						});
 						tmpMatches.push(data);
 						changedMatches.push([match.id, matchID]);
-					} catch (error) {}
+					} catch (error) {
+						console.error(error);
+					}
 				}
 				const matches = await Database.Matches.all({ db: database });
 

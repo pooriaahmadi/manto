@@ -102,12 +102,12 @@ const Analytics = ({ database }) => {
 				counter += item.length;
 				outputSum += sum;
 			});
-			dublicateMatchAnswers.forEach((item) => {
-				let sum = 0;
-				item.forEach((item) => (sum += item.content));
-				counter += item.length;
-				outputSum += sum;
-			});
+			// dublicateMatchAnswers.forEach((item) => {
+			// 	let sum = 0;
+			// 	item.forEach((item) => (sum += item.content));
+			// 	counter += item.length;
+			// 	outputSum += sum;
+			// })
 			output.push(outputSum / counter);
 		}
 		dataset.push({
