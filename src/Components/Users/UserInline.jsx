@@ -11,7 +11,7 @@ const UserInline = ({ username, name, id, handleDelete }) => {
 			<div className="controls">
 				<Link to={`/users/${id}/qrcode`}>QRCode</Link>
 				<button onClick={handleDelete}>Delete</button>
-				<button onClick={handleDelete}>Use</button>
+				<button onClick={use}>Use</button>
 			</div>
 		</div>
 	);
