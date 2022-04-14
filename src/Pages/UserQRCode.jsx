@@ -22,22 +22,22 @@ const UserQRCode = ({ database }) => {
 					id: id,
 				});
 				setUser(user);
-				const qualificationMatches = (
-					await Database.QualificationMatches.all({ db: database })
-				).map((item) => {
-					delete item.id;
-					return item;
-				});
+				// const qualificationMatches = (
+				// 	await Database.QualificationMatches.all({ db: database })
+				// ).map((item) => {
+				// 	delete item.id;
+				// 	return item;
+				// });
 				setImage(
 					await qrcode.toDataURL(
 						JSON.stringify({
 							id: id,
 							...user,
-							qualificationMatches: qualificationMatches
-								.map((item) =>
-									objectToArray({ object: item }).join(",")
-								)
-								.join(","),
+							// qualificationMatches: qualificationMatches
+							// 	.map((item) =>
+							// 		objectToArray({ object: item }).join(",")
+							// 	)
+							// 	.join(","),
 						}),
 						{ width: 1000, height: 1000 }
 					)
