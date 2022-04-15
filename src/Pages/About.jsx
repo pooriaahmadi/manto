@@ -7,7 +7,7 @@ const About = () => {
 			<div className="history">
 				<h1>History</h1>
 				<p>
-					Apps like Facebook, TikTok and Instagram didn't got popular
+					Apps like Facebook, TikTok and Instagram didn't get popular
 					because of community's needs. They produced a demand and a
 					scarcity among the populace.
 				</p>
@@ -39,12 +39,12 @@ const About = () => {
 				</div>
 			</div>
 			<div className="developers">
-				<h1>Sponsers</h1>
+				<h1>Sponsors</h1>
 				<div className="people">
 					<div className="person">
 						<img src={cuteTeam3161} alt="" />
 						<h1>Tronic Titans</h1>
-						<p className="role gold">Gold sponser</p>
+						<p className="role gold">Gold sponsor</p>
 						<div className="links">
 							<a href="https://github.com/frc3161/">GitHub</a>
 							<a href="https://team3161.ca/">Website</a>
