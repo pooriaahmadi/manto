@@ -1,32 +1,48 @@
 .analytics {
-    width: 100%;
     padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    .right {
-        width: calc(100% - 340px);
+    width: 100%;
+    >h1 {
+        margin-bottom: 20px;
     }
-    .left {
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        padding: 15px;
-        border-radius: 15px;
-        height: fit-content;
-        width: 300px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 20px;
-        .property {
-            // margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 10px;
+    .average {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        .right {
+            width: calc(100% - 340px);
+        }
+        .left {
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-            display: flex;
-            align-items: center;
-            h1 {
-                font-size: 15px;
-            }
-            input {
-                margin-right: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            height: fit-content;
+            width: 300px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            .property {
+                // margin-bottom: 20px;
+                text-align: center;
+                cursor: pointer;
+                transition: 0.5s;
+                color: white;
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                display: flex;
+                align-items: center;
+                background-color: #FF2E2E;
+                h1 {
+                    width: 100%;
+                    font-size: 15px;
+                }
+                input {
+                    margin-right: 20px;
+                }
+                &.active {
+                    background-color: limegreen;
+                }
             }
         }
     }

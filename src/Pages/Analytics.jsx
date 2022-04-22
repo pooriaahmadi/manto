@@ -71,9 +71,13 @@ const Analytics = ({ database }) => {
 		},
 	};
 	const dataset = [];
+	const maximumDataset = [];
+	const minimumDataset = [];
 	for (let i = 0; i < teams.length; i++) {
 		const team = teams[i];
 		const output = [];
+		const outputMaximum = [];
+		const outputMinimum = [];
 		for (let k = 0; k < selected.length; k++) {
 			const property = properties[selected[k]];
 			const teamMatches = matches.filter(
@@ -94,6 +98,7 @@ const Analytics = ({ database }) => {
 			const propertyAnswers = matchAnswers.map((answers) =>
 				answers.filter((answer) => answer.property === property.id)
 			);
+
 			let outputSum = 0;
 			let counter = 0;
 			propertyAnswers.forEach((item) => {
@@ -108,11 +113,38 @@ const Analytics = ({ database }) => {
 				counter += item.length;
 				outputSum += sum;
 			});
+			outputMaximum.push(
+				Math.max(
+					...propertyAnswers.map((item) =>
+						item.map((item) => +item.content)
+					)
+				)
+			);
+			outputMinimum.push(
+				Math.min(
+					...propertyAnswers.map((item) =>
+						item.map((item) => +item.content)
+					)
+				)
+			);
+			console.log(
+				propertyAnswers.map((item) => item.map((item) => item.content))
+			);
 			output.push(outputSum / counter);
 		}
 		dataset.push({
 			label: `${team.name} ${team.number}`,
 			data: output,
+			backgroundColor: colors[i],
+		});
+		maximumDataset.push({
+			label: `${team.name} ${team.number}`,
+			data: outputMaximum,
+			backgroundColor: colors[i],
+		});
+		minimumDataset.push({
+			label: `${team.name} ${team.number}`,
+			data: outputMinimum,
 			backgroundColor: colors[i],
 		});
 	}
@@ -122,31 +154,60 @@ const Analytics = ({ database }) => {
 	};
 	return (
 		<div className="analytics">
-			<div className="left">
-				{properties.map((property, index) => {
-					const handleClick = () => {
-						if (selected[selected.indexOf(index)] == undefined) {
-							setSelected([...selected, index]);
-						} else {
-							setSelected(
-								selected.filter((item) => item !== index)
-							);
-						}
-					};
-					return (
-						<div key={property.id} className="property">
-							<input type="checkbox" onClick={handleClick} />
-							<h1>
-								{property.type === 3
-									? property.title.split("|")[0]
-									: property.title}
-							</h1>
-						</div>
-					);
-				})}
+			<h1>Average</h1>
+			<div className="average">
+				<div className="left">
+					{properties.map((property, index) => {
+						const isActive = selected[selected.indexOf(index)];
+						const handleClick = () => {
+							if (isActive == undefined) {
+								setSelected([...selected, index]);
+							} else {
+								setSelected(
+									selected.filter((item) => item !== index)
+								);
+							}
+						};
+						return (
+							<div
+								key={property.id}
+								className={`property ${
+									isActive !== undefined && "active"
+								}`}
+								onClick={handleClick}
+							>
+								<h1>
+									{property.type === 3
+										? property.title.split("|")[0]
+										: property.title}
+								</h1>
+							</div>
+						);
+					})}
+				</div>
+				<div className="right">
+					<Bar options={options} data={data} />
+				</div>
 			</div>
-			<div className="right">
-				<Bar options={options} data={data} />
+			<h1>Maximum</h1>
+			<div className="maximum">
+				<Bar
+					options={options}
+					data={{
+						labels,
+						datasets: maximumDataset,
+					}}
+				/>
+			</div>
+			<h1>Minimum</h1>
+			<div className="minimum">
+				<Bar
+					options={options}
+					data={{
+						labels,
+						datasets: minimumDataset,
+					}}
+				/>
 			</div>
 		</div>
 	);
