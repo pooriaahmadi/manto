@@ -1,5 +1,5 @@
 .team-inline {
-    width: 100%;
+    width: 49% !important;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     display: flex;
     justify-content: space-between;
@@ -28,5 +28,10 @@
         font-size: 1em;
         margin-left: 10px;
         cursor: pointer;
+    }
+    .controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
