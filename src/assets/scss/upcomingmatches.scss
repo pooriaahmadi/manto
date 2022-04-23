@@ -1,0 +1,50 @@
+.upcoming-matches {
+    width: 100%;
+    .bottom {
+        width: 100%;
+        .match {
+            width: calc(100% / 3 - 10px);
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            .top {
+                margin-bottom: 10px
+            }
+            .bottom {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                >div {
+                    width: 49%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    a {
+                        width: 100%;
+                        display: flex;
+                        margin-bottom: 10px;
+                        text-decoration: none;
+                        justify-content: center;
+                        align-items: center;
+                        color: white;
+                        padding: 10px;
+                        border-radius: 5px;
+                    }
+                    &.left {
+                        a {
+                            background-color: #007AFF;
+                        }
+                    }
+                    &.right {
+                        a {
+                            background-color: crimson;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

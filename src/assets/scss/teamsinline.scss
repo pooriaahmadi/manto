@@ -2,6 +2,13 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 15px;
     margin-bottom: 20px;
+    &.categories-inline {
+        >.bottom {
+            .teams-inline {
+                width: 49% !important;
+            }
+        }
+    }
     >.top {
         display: flex;
         justify-content: space-between;

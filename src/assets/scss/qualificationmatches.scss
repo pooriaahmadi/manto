@@ -1,6 +1,7 @@
 .qualification-matches {
     margin: 0 20px;
     .teams-inline {
+        width: calc(100% / 3 - 10px);
         .bottom {
             display: flex;
             align-items: center;

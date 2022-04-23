@@ -19,7 +19,7 @@ const CategoriesInline = ({ database, scout = false }) => {
 		stuff();
 	}, [database]);
 	return (
-		<div className="teams-inline">
+		<div className="teams-inline categories-inline">
 			<div className="top">
 				<h1>Categories</h1>
 				<div className="controls">

@@ -57,6 +57,15 @@
         }
     }
     .teams-inline {
+        &.categories-inline {
+            &.categories-inline {
+                >.bottom {
+                    .teams-inline {
+                        width: unset !important;
+                    }
+                }
+            }
+        }
         .top {
             flex-direction: column;
             h1 {
@@ -95,6 +104,18 @@
         }
         .right {
             width: 100% !important;
+        }
+    }
+    .qualification-matches {
+        .teams-inline {
+            width: 100% !important;
+        }
+    }
+    .upcoming-matches {
+        .bottom {
+            .match {
+                width: 100% !important;
+            }
         }
     }
 }
