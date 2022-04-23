@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MatchesInline from "../Matches/MatchesInline";
 import UpcomingMatches from "../Matches/UpcomingMatches";
+import Comparison from "../Analytics/Comparison";
 import Database from "../../Database";
 import "../../assets/scss/teamscout.scss";
 
@@ -40,6 +41,7 @@ const TeamScout = ({ database, increaseQueue, decreaseQueue }) => {
 				team_id={id}
 			/>
 			<UpcomingMatches database={database} teamId={id} />
+			<Comparison database={database} teamId={id} />
 		</div>
 	);
 };

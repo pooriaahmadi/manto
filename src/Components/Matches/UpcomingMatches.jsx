@@ -43,21 +43,21 @@ const UpcomingMatches = ({ database, teamId }) => {
 			<div className="bottom">
 				{qualificationMatches.map((match) => {
 					return (
-						<div className="match">
+						<div key={match.id} className="match">
 							<div className="top">
 								<h2>Match #{match.number}</h2>
 							</div>
 							<div className="bottom">
 								<div className="left">
 									{match.blue.map((team) => (
-										<Link to="">
+										<Link key={team} to="">
 											<h3>{team}</h3>
 										</Link>
 									))}
 								</div>
 								<div className="right">
 									{match.red.map((team) => (
-										<Link to="">
+										<Link key={team} to="">
 											<h3>{team}</h3>
 										</Link>
 									))}

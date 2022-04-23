@@ -4,6 +4,9 @@
     >h1 {
         margin-bottom: 20px;
     }
+    &.comparison {
+        padding: unset !important;
+    }
     .average {
         width: 100%;
         display: flex;
