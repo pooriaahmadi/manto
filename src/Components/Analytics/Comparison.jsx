@@ -42,16 +42,13 @@ const Comparison = ({ database, teamId }) => {
 					id: teamId,
 				});
 				if (!team) return navigate("/scout");
-				setTeam(team);
 				const matches = await Database.Matches.getByTeam({
 					db: database,
 					team_id: teamId,
 				});
-				setMatches(matches);
 				const properties = await Database.Properties.all({
 					db: database,
 				});
-				setProperties(properties);
 				setColors(
 					properties.map(
 						(item) =>
@@ -60,6 +57,9 @@ const Comparison = ({ database, teamId }) => {
 				);
 				const answers = await Database.Answers.all({ db: database });
 				setAnswers(answers);
+				setProperties(properties);
+				setTeam(team);
+				setMatches(matches);
 			} catch (error) {
 				console.log("Database is not ready yet, waiting...");
 			}
@@ -78,7 +78,6 @@ const Comparison = ({ database, teamId }) => {
 			},
 		},
 	};
-	console.log(selected);
 	const data = {
 		labels: matches.map((match) => `Match #${match.number}`),
 		datasets: selected.map((select) => {
@@ -100,43 +99,110 @@ const Comparison = ({ database, teamId }) => {
 		}),
 	};
 	return (
-		<div className="analytics comparison">
-			<h1>Comparison</h1>
-			<div className="average">
-				<div className="left">
-					{properties.map((property, index) => {
-						const isActive = selected[selected.indexOf(index)];
-						const handleClick = () => {
-							if (isActive == undefined) {
-								setSelected([...selected, index]);
-							} else {
-								setSelected(
-									selected.filter((item) => item !== index)
-								);
-							}
-						};
-						return (
-							<div
-								key={property.id}
-								className={`property ${
-									isActive !== undefined && "active"
-								}`}
-								onClick={handleClick}
-							>
-								<h1>
-									{property.type === 3
-										? property.title.split("|")[0]
-										: property.title}
-								</h1>
-							</div>
-						);
-					})}
-				</div>
-				<div className="right">
-					<Line options={options} data={data} />
+		<>
+			<div className="analytics comparison">
+				<h1>Comparison</h1>
+				<div className="average">
+					<div className="left">
+						{properties.map((property, index) => {
+							const isActive = selected[selected.indexOf(index)];
+							const handleClick = () => {
+								if (isActive == undefined) {
+									setSelected([...selected, index]);
+								} else {
+									setSelected(
+										selected.filter(
+											(item) => item !== index
+										)
+									);
+								}
+							};
+							return (
+								<div
+									key={property.id}
+									className={`property ${
+										isActive !== undefined && "active"
+									}`}
+									onClick={handleClick}
+								>
+									<h1>
+										{property.type === 3
+											? property.title.split("|")[0]
+											: property.title}
+									</h1>
+								</div>
+							);
+						})}
+					</div>
+					<div className="right">
+						<Line options={options} data={data} />
+					</div>
 				</div>
 			</div>
-		</div>
+			<div className="stats">
+				<div className="maximum">
+					<div className="top">
+						<h1>Maximum</h1>
+					</div>
+					<div className="bottom">
+						{properties.map((property) => {
+							const customAnswers = answers.filter(
+								(answer) => answer.property === property.id
+							);
+							return (
+								<div className="item" key={property.id}>
+									<div className="left">
+										<h4>{property.title.split("|")[0]}</h4>
+									</div>
+									<div className="right">
+										<h3>
+											{
+												+customAnswers
+													.sort(
+														(a, b) =>
+															+a.content -
+															+b.content
+													)
+													.pop().content
+											}
+										</h3>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+				<div className="minimum">
+					<div className="top">
+						<h1>Minimum</h1>
+					</div>
+					<div className="bottom">
+						{properties.map((property) => {
+							const customAnswers = answers.filter(
+								(answer) => answer.property === property.id
+							);
+							return (
+								<div className="item" key={property.id}>
+									<div className="left">
+										<h4>{property.title.split("|")[0]}</h4>
+									</div>
+									<div className="right">
+										<h3>
+											{
+												+customAnswers.sort(
+													(a, b) =>
+														+a.content - +b.content
+												)[0].content
+											}
+										</h3>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			</div>
+		</>
 	);
 };
 

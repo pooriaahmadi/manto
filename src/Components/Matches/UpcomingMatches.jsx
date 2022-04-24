@@ -15,7 +15,6 @@ const UpcomingMatches = ({ database, teamId }) => {
 					db: database,
 					id: teamId,
 				});
-				console.log(teamId);
 				if (!team) return navigate("/scout");
 				setTeam(team);
 				let qualificationMatches =

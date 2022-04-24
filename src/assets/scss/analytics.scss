@@ -6,6 +6,7 @@
     }
     &.comparison {
         padding: unset !important;
+        // margin-bottom: 20px;
     }
     .average {
         width: 100%;
@@ -46,6 +47,32 @@
                 &.active {
                     background-color: limegreen;
                 }
+            }
+        }
+    }
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    >div {
+        margin-bottom: 20px;
+        width: 49%;
+        .top {
+            margin-bottom: 10px;
+        }
+        .bottom {
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            >.item {
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 15px;
+                display: flex;
+                justify-content: space-between;
             }
         }
     }
