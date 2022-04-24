@@ -105,6 +105,9 @@
         .right {
             width: 100% !important;
         }
+        .average {
+            flex-direction: column;
+        }
     }
     .qualification-matches {
         .teams-inline {
