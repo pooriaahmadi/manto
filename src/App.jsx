@@ -49,6 +49,9 @@ const App = () => {
 						"waiting_matches",
 						"qualification_matches",
 						"dublicates",
+						"pitanswers",
+						"pitproperties",
+						"comments",
 					];
 					for (let i = 0; i < objectStores.length; i++) {
 						try {

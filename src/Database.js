@@ -54,6 +54,129 @@ class Database {
         });
         dublicates.createIndex("proeprty", "property");
         dublicates.createIndex("match", "match");
+        const comments = db.createObjectStore("comments", {
+            autoIncrement: true,
+        });
+        comments.createIndex("team", "team");
+        db.createObjectStore("pitproperties", {
+            autoIncrement: true,
+        });
+        const pitAnswers = db.createObjectStore("pitanswers", {
+            autoIncrement: true,
+        });
+        pitAnswers.createIndex("team", "team");
+        pitAnswers.createIndex("property", "property");
+    };
+    static PitAnswers = class PitAsnwers {
+        static insert = async({ db, content, property, team }) => {
+            const txn = db.transaction("pitanswers", "readwrite");
+            const pitAnswers = txn.objectStore("pitanswers");
+            return await pitAnswers.add({
+                content,
+                property,
+                team,
+            });
+        };
+        static clear = async({ db }) => {
+            const txn = db.transaction("pitanswers", "readwrite");
+            const pitAnswers = txn.objectStore("pitanswers");
+            await pitAnswers.clear();
+        };
+        static all = async({ db }) => {
+            const txn = db.transaction("pitanswers", "readonly");
+            const objectStore = txn.objectStore("pitanswers");
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static getById = async({ db, id }) => {
+            const txn = db.transaction("pitanswers", "readwrite");
+            const pitAnswers = txn.objectStore("pitanswers");
+            return await pitAnswers.get(id);
+        };
+        static getByTeam = async({ db, team_id }) => {
+            const txn = db.transaction("pitanswers", "readonly");
+            const objectStore = txn.objectStore("pitanswers");
+            const index = objectStore.index("team");
+            const keys = await index.getAllKeys(team_id);
+            return (await index.getAll(team_id)).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static getByProperty = async({ db, property_id }) => {
+            const txn = db.transaction("pitanswers", "readonly");
+            const objectStore = txn.objectStore("pitanswers");
+            const index = objectStore.index("property");
+            const keys = await index.getAllKeys(property_id);
+            return (await index.getAll(team_id)).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+    };
+    static PitProperties = class PitProperties {
+        static insert = async({ db, content }) => {
+            const txn = db.transaction("pitproperties", "readwrite");
+            const pitProperties = txn.objectStore("pitproperties");
+            return await pitProperties.add({
+                content,
+            });
+        };
+        static clear = async({ db }) => {
+            const txn = db.transaction("pitproperties", "readwrite");
+            const pitProperties = txn.objectStore("pitproperties");
+            await pitProperties.clear();
+        };
+        static all = async({ db }) => {
+            const txn = db.transaction("pitproperties", "readonly");
+            const objectStore = txn.objectStore("pitproperties");
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static getById = async({ db, id }) => {
+            const txn = db.transaction("pitproperties", "readwrite");
+            const pitProperties = txn.objectStore("pitproperties");
+            return await pitProperties.get(id);
+        };
+    };
+    static Comments = class Comments {
+        static insert = async({ db, content, team }) => {
+            const txn = db.transaction("comments", "readwrite");
+            const comments = txn.objectStore("comments");
+            return await comments.add({
+                content,
+                team,
+            });
+        };
+        static clear = async({ db }) => {
+            const txn = db.transaction("comments", "readwrite");
+            const comments = txn.objectStore("comments");
+            await comments.clear();
+        };
+        static all = async({ db }) => {
+            const txn = db.transaction("comments", "readonly");
+            const objectStore = txn.objectStore("comments");
+            const keys = await objectStore.getAllKeys();
+            return (await objectStore.getAll()).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
+        static getById = async({ db, id }) => {
+            const txn = db.transaction("comments", "readwrite");
+            const comments = txn.objectStore("comments");
+            return await comments.get(id);
+        };
+        static getByTeam = async({ db, team_id }) => {
+            const txn = db.transaction("comments", "readonly");
+            const objectStore = txn.objectStore("comments");
+            const index = objectStore.index("team");
+            const keys = await index.getAllKeys(team_id);
+            return (await index.getAll(team_id)).map((item, index) => {
+                return { id: keys[index], ...item };
+            });
+        };
     };
     static QualificationMatches = class QualificationMatches {
         static insert = async({ db, number, redTeams, blueTeams }) => {
