@@ -109,7 +109,7 @@ class Database {
             const objectStore = txn.objectStore("pitanswers");
             const index = objectStore.index("property");
             const keys = await index.getAllKeys(property_id);
-            return (await index.getAll(team_id)).map((item, index) => {
+            return (await index.getAll(property_id)).map((item, index) => {
                 return { id: keys[index], ...item };
             });
         };
