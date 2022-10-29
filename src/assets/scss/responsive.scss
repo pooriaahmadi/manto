@@ -1,130 +1,131 @@
 @media screen and (max-width: 1000px) {
-    header {
-        >.left {
-            >.items {
-                display: none !important;
-            }
-        }
-        >.right {
-            img {
-                &:first-of-type {
-                    display: none;
-                }
-                &:last-of-type {
-                    width: 50px;
-                    display: flex !important;
-                }
-            }
-        }
-    }
-    .load {
-        .scanner {
-            padding: 0 20px;
-            width: 100% !important;
-        }
-    }
-    footer {
-        .top {
-            flex-direction: column;
-            .left {
-                margin-bottom: 20px;
-                justify-content: space-between !important;
-                img {
-                    width: 100px !important;
-                    margin: unset !important;
-                    &.close {
-                        width: 40px !important;
-                        height: 40px !important;
-                    }
-                }
-            }
-            .right {
-                a {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 100%;
-                    padding: 10px 15px !important;
-                    font-size: 15px !important;
-                }
-            }
-        }
-        .bottom {
-            p {
-                font-size: 15px !important;
-                text-align: center;
-            }
-        }
-    }
-    .teams-inline {
-        &.categories-inline {
-            &.categories-inline {
-                >.bottom {
-                    .teams-inline {
-                        width: unset !important;
-                    }
-                }
-            }
-        }
-        .top {
-            flex-direction: column;
-            h1 {
-                font-size: 25px;
-            }
-            .controls {
-                .new,
-                .qrcode,
-                button {
-                    padding: 5px 10px !important;
-                    font-size: 15px !important;
-                }
-            }
-        }
-        .bottom {
-            .team-inline {
-                width: 100% !important;
-                flex-direction: column;
-                h3 {
-                    font-size: 20px;
-                    margin-bottom: 10px;
-                }
-                .controls {
-                    a {
-                        font-size: 15px;
-                    }
-                }
-            }
-        }
-    }
-    .analytics {
-        flex-direction: column;
-        .left {
-            width: 100% !important;
-            margin-bottom: 20px;
-        }
-        .right {
-            width: 100% !important;
-        }
-        .average {
-            flex-direction: column;
-        }
-    }
-    .qualification-matches {
-        .teams-inline {
-            width: 100% !important;
-        }
-    }
-    .upcoming-matches {
-        .bottom {
-            .match {
-                width: 100% !important;
-            }
-        }
-    }
-    .stats {
-        flex-direction: column;
-        >div {
-            width: 100% !important;
-        }
-    }
+	header {
+		> .left {
+			> .items {
+				display: none !important;
+			}
+		}
+		> .right {
+			img {
+				&:first-of-type {
+					display: none;
+				}
+				&:last-of-type {
+					width: 50px;
+					display: flex !important;
+				}
+			}
+		}
+	}
+	.load {
+		.scanner {
+			padding: 0 20px;
+			width: 100% !important;
+		}
+	}
+	footer {
+		.top {
+			flex-direction: column;
+			.left {
+				margin-bottom: 20px;
+				justify-content: space-between !important;
+				img {
+					width: 100px !important;
+					margin: unset !important;
+					&.close {
+						width: 40px !important;
+						height: 40px !important;
+					}
+				}
+			}
+			.right {
+				a {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					width: 100%;
+					padding: 10px 15px !important;
+					font-size: 15px !important;
+				}
+			}
+		}
+		.bottom {
+			p {
+				font-size: 15px !important;
+				text-align: center;
+			}
+		}
+	}
+	.teams-inline {
+		&.categories-inline {
+			&.categories-inline {
+				> .bottom {
+					.teams-inline {
+						width: unset !important;
+						flex-grow: 1;
+					}
+				}
+			}
+		}
+		.top {
+			flex-direction: column;
+			h1 {
+				font-size: 25px;
+			}
+			.controls {
+				.new,
+				.qrcode,
+				button {
+					padding: 5px 10px !important;
+					font-size: 15px !important;
+				}
+			}
+		}
+		.bottom {
+			.team-inline {
+				width: 100% !important;
+				flex-direction: column;
+				h3 {
+					font-size: 20px;
+					margin-bottom: 10px;
+				}
+				.controls {
+					a {
+						font-size: 15px;
+					}
+				}
+			}
+		}
+	}
+	.analytics {
+		flex-direction: column;
+		.left {
+			width: 100% !important;
+			margin-bottom: 20px;
+		}
+		.right {
+			width: 100% !important;
+		}
+		.average {
+			flex-direction: column;
+		}
+	}
+	.qualification-matches {
+		.teams-inline {
+			width: 100% !important;
+		}
+	}
+	.upcoming-matches {
+		.bottom {
+			.match {
+				width: 100% !important;
+			}
+		}
+	}
+	.stats {
+		flex-direction: column;
+		> div {
+			width: 100% !important;
+		}
+	}
 }
