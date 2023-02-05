@@ -7,17 +7,14 @@ const About = () => {
 			<div className="history">
 				<h1>History</h1>
 				<p>
-					Apps like Facebook, TikTok and Instagram didn't get popular
-					because of community's needs. They produced a demand and a
-					scarcity among the populace.
-				</p>
-				<p>
-					The same thing happened with Manto; scouting was done on
-					paper or using tools like Excel or Google Forms, and no one
-					wanted to develop something special for it. However,{" "}
-					<a href="https://team3161.ca">We</a> had the notion to turn
-					this method into an app to make it easier for scouters to
-					scout.
+					Apps such as Facebook, TikTok, and Instagram gained
+					popularity not due to fulfilling community needs, but rather
+					by creating a demand and scarcity among the public. The same
+					was true for scouting in sports; scouting was performed
+					using paper or tools like Excel or Google Forms, lacking a
+					dedicated platform. My idea was to revolutionize this
+					process by developing a specialized app that would
+					streamline the scouting process for scouts.
 				</p>
 			</div>
 			<div className="developers">

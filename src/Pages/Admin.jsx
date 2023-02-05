@@ -313,9 +313,6 @@ const Admin = ({ database }) => {
 					<button className="action" onClick={reset}>
 						Reset
 					</button>
-					<Link className="action" to="/schedule/transfer">
-						Transfer Schedule
-					</Link>
 				</div>
 				<TeamsInline database={database}></TeamsInline>
 				<UsersInline database={database}></UsersInline>
