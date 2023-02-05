@@ -1,20 +1,36 @@
 .user-qrcode {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    img {
-        max-height: calc(100vh - 200px);
-        max-width: 100%;
-    }
-    a {
-        text-decoration: none;
-        color: white;
-        background-color: #007AFF;
-        padding: 10px 20px;
-        border-radius: 8px;
-        display: flex;
-        justify-content: center;
-    }
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	img,
+	canvas {
+		max-height: calc(100vh - 200px);
+		max-width: 100%;
+	}
+	a {
+		text-decoration: none;
+		color: white;
+		background-color: #007aff;
+		padding: 10px 20px;
+		border-radius: 8px;
+		display: flex;
+		justify-content: center;
+	}
+	> div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		> button {
+			outline: none;
+			border: none;
+			background-color: #007aff;
+			padding: 10px 20px;
+			border-radius: 8px;
+			color: white;
+			font-size: 1em;
+		}
+	}
 }

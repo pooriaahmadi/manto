@@ -156,15 +156,18 @@ const Comparison = ({ database, teamId }) => {
 									</div>
 									<div className="right">
 										<h3>
-											{
-												+customAnswers
-													.sort(
-														(a, b) =>
-															+a.content -
-															+b.content
-													)
-													.pop().content
-											}
+											{+customAnswers.sort(
+												(a, b) =>
+													+a.content - +b.content
+											).length
+												? +customAnswers
+														.sort(
+															(a, b) =>
+																+a.content -
+																+b.content
+														)
+														.pop().content
+												: "no data"}
 										</h3>
 									</div>
 								</div>
@@ -188,12 +191,16 @@ const Comparison = ({ database, teamId }) => {
 									</div>
 									<div className="right">
 										<h3>
-											{
-												+customAnswers.sort(
-													(a, b) =>
-														+a.content - +b.content
-												)[0].content
-											}
+											{+customAnswers.sort(
+												(a, b) =>
+													+a.content - +b.content
+											).length
+												? +customAnswers.sort(
+														(a, b) =>
+															+a.content -
+															+b.content
+												  )[0].content
+												: "no data"}
 										</h3>
 									</div>
 								</div>

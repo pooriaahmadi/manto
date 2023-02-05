@@ -1,20 +1,11 @@
 import { QrReader } from "react-qr-reader";
 import QrScanner from "qr-scanner";
 import Database from "../Database";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "../assets/scss/teamsload.scss";
 import "../assets/scss/inputs.scss";
 
-const chunkArrayInGroups = (arr, size) => {
-	var myArray = [];
-	for (var i = 0; i < arr.length; i += size) {
-		myArray.push(arr.slice(i, i + size));
-	}
-	return myArray;
-};
-const TeamsLoad = ({ database, redirect = "/admin" }) => {
-	const navigate = useNavigate();
+const QualificationMatchesLoad = ({ database }) => {
 	const [result, setResult] = useState("");
 	const [method, setMethod] = useState(0);
 	const handleMethodChange = (e) => {
@@ -27,56 +18,51 @@ const TeamsLoad = ({ database, redirect = "/admin" }) => {
 			const result = await QrScanner.scanImage(image);
 			if (!result) return;
 			setResult(result);
+			handleSubmit(result);
 		};
 	};
 	const handleScan = (result) => {
 		if (!result) return;
 		setResult(result.text);
+		// handleSubmit(result.text);
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const teamSchema = ["id", "number", "name"];
-		let teams = chunkArrayInGroups(
-			result.split(","),
-			teamSchema.length
-		).map((item) => {
-			return {
-				id: parseInt(item[0]),
-				number: parseInt(item[1]),
-				name: item[2],
-			};
-		});
+		let results = result.split("|");
+		let teams = await Database.Teams.all({ db: database });
+		teams = teams.map((team) => team.number);
 		if (method === 0) {
-			await Database.Teams.clear({ db: database });
-		} else if (method === 1) {
-			const oldTeams = await Database.Teams.all({ db: database });
-			teams = oldTeams
-				.filter((x) => !teams.includes(x))
-				.concat(teams.filter((x) => !oldTeams.includes(x)));
+			await Database.QualificationMatches.clear({ db: database });
 		}
-		for (let i = 0; i < teams.length; i++) {
-			const team = teams[i];
-			try {
-				await Database.insertTeam({
+		for (let i = 0; i < results.length; i++) {
+			const match = results[i].split(",");
+			const matchNumber = match[0];
+			const red = match.slice(1, 4).map((team) => teams[team]);
+			const blue = match.slice(4, 7).map((team) => teams[team]);
+			if (method === 1) {
+				const exists = await Database.QualificationMatches.getByNumber({
 					db: database,
-					number: team.number,
-					name: team.name,
+					number: matchNumber,
 				});
-			} catch (error) {
-				console.error(error);
+				if (exists.id) {
+					continue;
+				}
 			}
+			await Database.QualificationMatches.insert({
+				db: database,
+				number: matchNumber,
+				redTeams: red,
+				blueTeams: blue,
+			});
 		}
 		alert("Done, if there's more, continue scanning");
 		setResult("");
 	};
-	const handleError = (err) => {
-		console.error(err);
-	};
 	return (
 		<div className="load">
-			{result === "" ? (
+			{result == "" ? (
 				<div className="scanner">
-					<h1>Teams load</h1>
+					<h1>Schedule load</h1>
 					<div className="controls">
 						<input
 							type="file"
@@ -118,4 +104,4 @@ const TeamsLoad = ({ database, redirect = "/admin" }) => {
 	);
 };
 
-export default TeamsLoad;
+export default QualificationMatchesLoad;

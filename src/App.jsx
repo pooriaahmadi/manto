@@ -31,13 +31,15 @@ import Analytics from "./Pages/Analytics";
 import Footer from "./Components/Footer/Footer";
 import About from "./Pages/About";
 import "./assets/scss/colors.scss";
+import QualificationMatchesQRCode from "./Pages/QualificationMatchesQRCode";
+import QualificationMatchesLoad from "./Pages/QualificationMatchesLoad";
 
 const App = () => {
 	const [database, setDatabase] = useState();
 	const [queue, setQueue] = useState(0);
 	useEffect(() => {
 		const stuff = async () => {
-			const db = await idb.openDB("manto", 13, {
+			const db = await idb.openDB("manto", 14, {
 				async upgrade(db, oldVersion, newVersion, transaction) {
 					const objectStores = [
 						"users",
@@ -190,6 +192,18 @@ const App = () => {
 								database={database}
 								increaseQueue={increaseQueue}
 							/>
+						}
+					/>
+					<Route
+						path="/qualification_matches/qrcode"
+						element={
+							<QualificationMatchesQRCode database={database} />
+						}
+					/>
+					<Route
+						path="/qualification_matches/load"
+						element={
+							<QualificationMatchesLoad database={database} />
 						}
 					/>
 					<Route

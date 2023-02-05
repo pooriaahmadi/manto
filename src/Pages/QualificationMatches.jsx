@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Database from "../Database";
 import "../assets/scss/qualificationmatches.scss";
 
@@ -72,18 +72,18 @@ const QualificationMatches = ({ database, increaseQueue }) => {
 			navigate(`/teams/${teamId}/matches/${match}/edit`);
 		}
 	};
-	const handleOnLoad = () => {
-		localStorage.removeItem("user");
-		navigate("/");
-	};
+	const handleOnLoad = () => {};
 	return (
 		<div className="teams-inline qualification-matches">
 			<div className="top">
 				<h1>Matches</h1>
 				<div className="controls">
-					<button className="qrcode" onClick={handleOnLoad}>
+					<Link className="qrcode" to="/qualification_matches/qrcode">
+						QRCode
+					</Link>
+					<Link className="qrcode" to="/qualification_matches/load">
 						Load
-					</button>
+					</Link>
 				</div>
 			</div>
 			<div className="bottom">
